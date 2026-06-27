@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { decodeUrl } from '../../lib/url';
 import { extractArticle } from '../../lib/extract';
-import { toSindhi } from '../../lib/translate';
+import { toSindhi, toSindhiMany } from '../../lib/translate';
 
 export const revalidate = 3600;
+export const maxDuration = 60;
 
 export const metadata = { title: 'خبر | پنا سنڌي' };
 
@@ -29,8 +30,10 @@ export default async function ArticlePage({ searchParams }) {
     );
   }
 
-  const titleSd = await toSindhi(data.title);
-  const paras = await Promise.all(data.paragraphs.slice(0, 22).map((p) => toSindhi(p)));
+  const [titleSd, paras] = await Promise.all([
+    toSindhi(data.title),
+    toSindhiMany(data.paragraphs.slice(0, 20)),
+  ]);
 
   return (
     <article className="max-w-3xl mx-auto px-5 py-8">
