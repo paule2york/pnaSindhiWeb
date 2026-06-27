@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sindhi: 'Noto Naskh Arabic', 'MB Lateefi', serif;
+}
+
+html { direction: rtl; }
+
+body {
+  font-family: var(--font-sindhi);
+  background: #f7f9f8;
+  color: #1a1a1a;
+}
+
+.brand-gradient {
+  background: linear-gradient(120deg, #0d7a5f 0%, #14a37f 60%, #1fd1a3 100%);
+}
+
+.card-hover { transition: transform 0.18s ease, box-shadow 0.18s ease; }
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(13, 122, 95, 0.15);
+}
