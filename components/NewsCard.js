@@ -1,17 +1,47 @@
+import Link from 'next/link';
+import { encodeUrl } from '../lib/url';
+
+function fmt(d) {
+  try {
+    return new Date(d).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+  } catch (e) {
+    return '';
+  }
+}
+
 export default function NewsCard({ item }) {
-  return (
-    <article className="card-hover bg-white rounded-2xl p-5 border border-gray-100">
-      <div className="flex items-center gap-2 mb-2">
-        <span className={`text-[11px] px-2 py-0.5 rounded-full ${item.source === 'auto' ? 'bg-brand-light text-brand-dark' : 'bg-amber-100 text-amber-700'}`}>
-          {item.source === 'auto' ? 'آٽو خبر' : 'مقامي صحافي'}
-        </span>
-        {item.pubDate ? <span className="text-[11px] text-gray-400">{new Date(item.pubDate).toLocaleDateString('en-GB')}</span> : null}
-      </div>
-      <h3 className="font-bold text-lg leading-relaxed text-ink mb-1">{item.title}</h3>
-      {item.description ? <p className="text-sm text-gray-600 leading-loose">{item.description}</p> : null}
-      {item.link ? (
-        <a href={item.link} target="_blank" rel="noreferrer" className="inline-block mt-3 text-sm text-brand font-bold">مڪمل پڑهو ←</a>
+  const isLocal = item.source === 'local';
+  const href = !isLocal && item.link
+    ? `/article?u=${item.id || encodeUrl(item.link)}&s=${encodeURIComponent(item.sourceName || '')}`
+    : null;
+
+  const inner = (
+    <article className="card-hover bg-white rounded-2xl overflow-hidden border border-gray-100 h-full flex flex-col">
+      {item.image ? (
+        <div className="aspect-[16/9] overflow-hidden bg-gray-100">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={item.image} alt="" className="w-full h-full object-cover" loading="lazy" />
+        </div>
       ) : null}
+      <div className="p-5 flex flex-col flex-1">
+        <div className="flex items-center gap-2 mb-2">
+          <span className={`text-[11px] px-2 py-0.5 rounded-full font-bold ${isLocal ? 'bg-amber-100 text-amber-700' : 'bg-brand-light text-brand-dark'}`}>
+            {isLocal ? 'مقامي صحافي' : (item.sourceName || 'خبر')}
+          </span>
+          {item.pubDate ? <span className="text-[11px] text-gray-400">{fmt(item.pubDate)}</span> : null}
+        </div>
+        <h3 className="font-bold text-lg leading-relaxed text-ink mb-1">{item.title}</h3>
+        {item.description ? (
+          <p className="text-sm text-gray-600 leading-loose line-clamp-3">{item.description}</p>
+        ) : null}
+        {href ? (
+          <span className="inline-block mt-3 text-sm text-brand font-bold">مڪمل پڑهو (ترجمو) ←</span>
+        ) : null}
+      </div>
     </article>
   );
+
+  return href ? (
+    <Link href={href} className="block h-full">{inner}</Link>
+  ) : inner;
 }
