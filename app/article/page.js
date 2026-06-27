@@ -11,6 +11,7 @@ export const metadata = { title: 'خبر | پنا سنڌي' };
 export default async function ArticlePage({ searchParams }) {
   const token = searchParams?.u || '';
   const sourceName = searchParams?.s || '';
+  const native = searchParams?.n === '1';
   let url = '';
   try { url = decodeUrl(token); } catch (e) { url = ''; }
 
@@ -23,17 +24,25 @@ export default async function ArticlePage({ searchParams }) {
   if (!data || !data.paragraphs || data.paragraphs.length === 0) {
     return (
       <div className="max-w-3xl mx-auto px-6 py-16 text-center">
-        <p className="text-gray-600 mb-4">هيءَ خبر هتي ترجمو نه ٿي سگهي.</p>
+        <p className="text-gray-600 mb-4">هيءَ خبر هتي دڨائي نه ٿي سگهي.</p>
         <a href={url} target="_blank" rel="noreferrer" className="text-brand font-bold">اصل خبر پڙهو ↗</a>
         <div className="mt-6"><Link href="/" className="text-sm text-gray-500">→ واپس مُک صفحي تي</Link></div>
       </div>
     );
   }
 
-  const [titleSd, paras] = await Promise.all([
-    toSindhi(data.title),
-    toSindhiMany(data.paragraphs.slice(0, 20)),
-  ]);
+  let titleSd;
+  let paras;
+  if (native) {
+    // Already Sindhi -> show as-is, no machine translation.
+    titleSd = data.title;
+    paras = data.paragraphs.slice(0, 20);
+  } else {
+    [titleSd, paras] = await Promise.all([
+      toSindhi(data.title),
+      toSindhiMany(data.paragraphs.slice(0, 20)),
+    ]);
+  }
 
   return (
     <article className="max-w-3xl mx-auto px-5 py-8">
@@ -41,7 +50,7 @@ export default async function ArticlePage({ searchParams }) {
 
       <div className="flex items-center gap-2 mt-4 mb-3">
         <span className="bg-brand-light text-brand-dark text-[11px] px-2 py-0.5 rounded-full font-bold">{sourceName || data.siteName || 'خبر'}</span>
-        <span className="text-[11px] text-gray-400">سنڌيءَ ۾ ترجمو ٿيل</span>
+        <span className="text-[11px] text-gray-400">{native ? 'سنڌي ذريعو' : 'سنڌيءَ ۾ ترجمو ٿيل'}</span>
       </div>
 
       <h1 className="text-2xl md:text-3xl font-bold leading-relaxed text-ink mb-5">{titleSd}</h1>
@@ -58,7 +67,7 @@ export default async function ArticlePage({ searchParams }) {
       <div className="mt-8 pt-5 border-t border-gray-200 text-sm text-gray-500">
         اصل خبر:{' '}
         <a href={url} target="_blank" rel="noreferrer" className="text-brand font-bold">{sourceName || 'ماخذ'} ↗</a>
-        <p className="text-[11px] text-gray-400 mt-2">نوٽ: ترجمو خودڪار (مشيني) آهي.</p>
+        {native ? null : <p className="text-[11px] text-gray-400 mt-2">نوٽ: ترجمو خودڪار (مشيني) آهي.</p>}
       </div>
     </article>
   );

@@ -11,9 +11,16 @@ function fmt(d) {
 
 export default function NewsCard({ item }) {
   const isLocal = item.source === 'local';
+  const isNative = item.native || item.source === 'sindhi';
   const href = !isLocal && item.link
-    ? `/article?u=${item.id || encodeUrl(item.link)}&s=${encodeURIComponent(item.sourceName || '')}`
+    ? `/article?u=${item.id || encodeUrl(item.link)}&s=${encodeURIComponent(item.sourceName || '')}${isNative ? '&n=1' : ''}`
     : null;
+
+  const badgeClass = isLocal
+    ? 'bg-amber-100 text-amber-700'
+    : isNative
+      ? 'bg-emerald-100 text-emerald-700'
+      : 'bg-brand-light text-brand-dark';
 
   const inner = (
     <article className="card-hover bg-white rounded-2xl overflow-hidden border border-gray-100 h-full flex flex-col">
@@ -25,7 +32,7 @@ export default function NewsCard({ item }) {
       ) : null}
       <div className="p-5 flex flex-col flex-1">
         <div className="flex items-center gap-2 mb-2">
-          <span className={`text-[11px] px-2 py-0.5 rounded-full font-bold ${isLocal ? 'bg-amber-100 text-amber-700' : 'bg-brand-light text-brand-dark'}`}>
+          <span className={`text-[11px] px-2 py-0.5 rounded-full font-bold ${badgeClass}`}>
             {isLocal ? 'مقامي صحافي' : (item.sourceName || 'خبر')}
           </span>
           {item.pubDate ? <span className="text-[11px] text-gray-400">{fmt(item.pubDate)}</span> : null}
@@ -35,7 +42,9 @@ export default function NewsCard({ item }) {
           <p className="text-sm text-gray-600 leading-loose line-clamp-3">{item.description}</p>
         ) : null}
         {href ? (
-          <span className="inline-block mt-3 text-sm text-brand font-bold">مڪمل پڑهو (ترجمو) ←</span>
+          <span className="inline-block mt-3 text-sm text-brand font-bold">
+            {isNative ? 'مڪمل پڑهو ←' : 'مڪمل پڑهو (ترجمو) ←'}
+          </span>
         ) : null}
       </div>
     </article>

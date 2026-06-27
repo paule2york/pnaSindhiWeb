@@ -5,9 +5,10 @@ import CitySelector from '../components/CitySelector';
 import { CATEGORIES, categoryName } from '../lib/data';
 
 export const revalidate = 900;
+export const maxDuration = 60;
 
 function articleHref(item) {
-  return `/article?u=${item.id}&s=${encodeURIComponent(item.sourceName || '')}`;
+  return `/article?u=${item.id}&s=${encodeURIComponent(item.sourceName || '')}${item.native ? '&n=1' : ''}`;
 }
 
 export default async function Home({ searchParams }) {
@@ -27,7 +28,7 @@ export default async function Home({ searchParams }) {
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
             <h1 className="text-3xl font-bold">پنا سنڌي</h1>
-            <p className="text-white/85 mt-1">سڄي پاڪستان جون تازيون خبرون — سنڌيءَ ۾ ترجمو ٿيل</p>
+            <p className="text-white/85 mt-1">سڊي پاڪستان جون تازيون خبرون — سنڌيءَ ۾</p>
           </div>
           <span className="text-white/80 text-sm">{today}</span>
         </div>
@@ -43,7 +44,7 @@ export default async function Home({ searchParams }) {
       </header>
 
       {news.length === 0 ? (
-        <p className="px-6 py-16 text-center text-gray-500">هن وقت خبرون لوڊ نه ٿي سگهيون، مهرباني ڪري ٿوري دير کان پوءِ ڪوشش ڪريو.</p>
+        <p className="px-6 py-16 text-center text-gray-500">هن وقت خبرون لوڊ نه ٿي سگهيون، مهرباني ڪري ٿوري دير ڪان پوءي ڪوشش ڪريو.</p>
       ) : (
         <>
           <section className="px-6 py-7 grid lg:grid-cols-3 gap-5">
