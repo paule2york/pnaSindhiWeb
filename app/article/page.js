@@ -13,16 +13,19 @@ export const metadata = { title: 'خبر | پنا سنڌي' };
 function ShareRow({ url, title }) {
   const u = encodeURIComponent(url || '');
   const t = encodeURIComponent(title || '');
+  const wa = 'https://wa.me/?text=' + t + '%20' + u;
+  const fb = 'https://www.facebook.com/sharer/sharer.php?u=' + u;
+  const tw = 'https://twitter.com/intent/tweet?text=' + t + '&url=' + u;
   const base = 'w-9 h-9 rounded-full text-white flex items-center justify-center hover:opacity-90 transition';
   return (
     <div className="flex items-center gap-3">
-      <a href={`https://wa.me/?text=${t}%20${u}`} target="_blank" rel="noreferrer" aria-label="WhatsApp" className={`${base} bg-[#25D366]`}>
+      <a href={wa} target="_blank" rel="noreferrer" aria-label="WhatsApp" className={`${base} bg-[#25D366]`}>
         <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor"><path d="M19.1 4.9A10 10 0 0 0 3.6 17.5L2 22l4.6-1.5A10 10 0 1 0 19.1 4.9zM12 20a8 8 0 0 1-4.1-1.1l-.3-.2-2.7.9.9-2.6-.2-.3A8 8 0 1 1 12 20zm4.6-6c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.1-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.1-.3 0-.4.1-.5l.4-.5c.1-.2.1-.3.2-.5 0-.2 0-.3 0-.4l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.6.3a2.8 2.8 0 0 0-.9 2.1c0 1.2.9 2.4 1 2.6.1.2 1.8 2.8 4.4 3.9 1.6.7 2.2.7 3 .6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.6-.3z"/></svg>
       </a>
-      <a href={`https://www.facebook.com/sharer/sharer.php?u=${u}`} target="_blank" rel="noreferrer" aria-label="Facebook" className={`${base} bg-[#1877F2]`}>
+      <a href={fb} target="_blank" rel="noreferrer" aria-label="Facebook" className={`${base} bg-[#1877F2]`}>
         <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor"><path d="M14 9h3l.4-3H14V4.5c0-.9.3-1.5 1.6-1.5H17V.4C16.7.3 15.7.2 14.6.2 12.2.2 10.6 1.7 10.6 4.3V6H8v3h2.6v9H14V9z"/></svg>
       </a>
-      <a href={`https://twitter.com/intent/tweet?text=${t}&url=${u}`} target="_blank" rel="noreferrer" aria-label="X" className={`${base} bg-black`}>
+      <a href={tw} target="_blank" rel="noreferrer" aria-label="X" className={`${base} bg-black`}>
         <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor"><path d="M17.5 3h3l-6.6 7.5L21.7 21h-5.6l-4.4-5.7L6.7 21H3.7l7-8L2.6 3h5.7l4 5.3L17.5 3zm-1 16h1.6L7.6 4.7H5.9L16.5 19z"/></svg>
       </a>
     </div>
