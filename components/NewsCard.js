@@ -19,7 +19,7 @@ export default function NewsCard({ item }) {
   const badgeClass = isLocal
     ? 'bg-amber-100 text-amber-700'
     : isNative
-      ? 'bg-emerald-100 text-emerald-700'
+      ? 'bg-ink text-white'
       : 'bg-brand-light text-brand-dark';
 
   const inner = (

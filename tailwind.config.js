@@ -6,8 +6,8 @@ module.exports = {
     extend: {
       fontFamily: { sindhi: ['var(--font-sindhi)', 'serif'] },
       colors: {
-        brand: { DEFAULT: '#0d7a5f', dark: '#095c47', light: '#e6f4ef' },
-        accent: { DEFAULT: '#c8102e', dark: '#9b0c23' },
+        brand: { DEFAULT: '#c8102e', dark: '#8f0a20', light: '#fdebed' },
+        accent: { DEFAULT: '#c8102e', dark: '#8f0a20' },
         ink: '#1a1a1a',
       },
     },
