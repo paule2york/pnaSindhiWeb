@@ -24,3 +24,17 @@ export function NewsGridSkeleton({ count = 6 }) {
     </section>
   );
 }
+
+export function SectionSkeleton() {
+  const lines = Array.from({ length: 3 });
+  return (
+    <div className="animate-pulse">
+      <div className="h-6 w-28 bg-gray-200 rounded mb-3" />
+      <div className="aspect-[16/9] bg-gray-200 rounded-xl mb-3" />
+      <div className="h-4 w-full bg-gray-200 rounded mb-2" />
+      <div className="space-y-2 mt-3">
+        {lines.map((_, i) => <div key={i} className="h-3 w-5/6 bg-gray-100 rounded" />)}
+      </div>
+    </div>
+  );
+}

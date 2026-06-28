@@ -1,6 +1,7 @@
 import './globals.css';
 import { Lateef } from 'next/font/google';
 import SiteHeader from '../components/SiteHeader';
+import SiteFooter from '../components/SiteFooter';
 
 const sindhi = Lateef({
   subsets: ['arabic'],
@@ -26,6 +27,7 @@ export default function RootLayout({ children }) {
       <body>
         <SiteHeader />
         <main className="max-w-6xl mx-auto min-h-screen">{children}</main>
+        <SiteFooter />
       </body>
     </html>
   );

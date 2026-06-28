@@ -1,11 +1,16 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
 import { fetchFeedNews } from '../lib/rss';
 import NewsCard from '../components/NewsCard';
 import CitySelector from '../components/CitySelector';
+import CategorySection from '../components/CategorySection';
+import { SectionSkeleton } from '../components/Skeletons';
 import { categoryName } from '../lib/data';
 
 export const revalidate = 900;
 export const maxDuration = 60;
+
+const SECTION_SLUGS = ['politics', 'world', 'business', 'sports', 'tech', 'entertainment'];
 
 function articleHref(item) {
   if (item.source === 'local' || !item.link) return '/';
@@ -26,9 +31,10 @@ export default async function Home({ searchParams }) {
   const rightList = news.slice(1, 6);
   const leftList = news.slice(6, 11);
   const grid = news.slice(11);
+  const showSections = cat === 'top';
 
   return (
-    <div className="pb-16 px-4 pt-5">
+    <div className="pb-4 px-4 pt-5">
       <section className="grid lg:grid-cols-4 gap-5">
         <div className="lg:col-span-1 order-2 lg:order-none">
           <h2 className="text-sm font-bold text-accent border-b-2 border-accent pb-1 mb-3">فيچر</h2>
@@ -92,6 +98,20 @@ export default async function Home({ searchParams }) {
           {grid.map((n) => <NewsCard key={n.id} item={n} />)}
         </div>
       </section>
+
+      {showSections ? (
+        <section className="mt-12">
+          <h2 className="text-xl font-bold mb-5 text-brand-dark border-r-4 border-accent pr-3">زمروار خبرون</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+            {SECTION_SLUGS.map((s) => (
+              <Suspense key={s} fallback={<SectionSkeleton />}>
+                {/* @ts-expect-error Async Server Component */}
+                <CategorySection slug={s} />
+              </Suspense>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <section className="py-12 mt-6">
         <CitySelector />
