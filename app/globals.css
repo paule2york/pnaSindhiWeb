@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --font-sindhi: 'Noto Naskh Arabic', 'MB Lateefi', serif;
+  --font-sindhi: 'Lateef', 'Noto Naskh Arabic', 'MB Lateefi', serif;
 }
 
 html { direction: rtl; }
@@ -12,6 +12,7 @@ body {
   font-family: var(--font-sindhi);
   background: #f5f7f6;
   color: #1a1a1a;
+  font-size: 1.0625rem;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 

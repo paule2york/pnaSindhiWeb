@@ -1,8 +1,8 @@
 import './globals.css';
-import { Noto_Naskh_Arabic } from 'next/font/google';
+import { Lateef } from 'next/font/google';
 import SiteHeader from '../components/SiteHeader';
 
-const sindhi = Noto_Naskh_Arabic({
+const sindhi = Lateef({
   subsets: ['arabic'],
   weight: ['400', '500', '700'],
   variable: '--font-sindhi',
