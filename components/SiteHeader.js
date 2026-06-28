@@ -27,10 +27,24 @@ export default function SiteHeader() {
       .then((r) => r.json())
       .then((d) => setHeads(d.items || []))
       .catch(() => {});
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    let locked = false;
+    let lockTimer;
+    let collapsed = false;
+    const onScroll = () => {
+      if (locked) return;
+      const y = window.scrollY;
+      const next = collapsed ? y > 40 : y > 120;
+      if (next !== collapsed) {
+        collapsed = next;
+        setScrolled(next);
+        locked = true;
+        clearTimeout(lockTimer);
+        lockTimer = setTimeout(() => { locked = false; }, 450);
+      }
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => { window.removeEventListener('scroll', onScroll); clearTimeout(lockTimer); };
   }, []);
 
   function submitSearch(e) {
@@ -46,7 +60,12 @@ export default function SiteHeader() {
   }
 
   const isCat = (slug) => pathname?.endsWith(`/${slug}`) || pathname?.includes(`cat=${slug}`);
-  const tickerItems = heads.length ? heads.concat(heads) : [];
+  const tickerBase = heads.length ? heads : [];
+  let tickerUnit = tickerBase;
+  while (tickerUnit.length > 0 && tickerUnit.length < 16) {
+    tickerUnit = tickerUnit.concat(tickerBase);
+  }
+  const tickerItems = tickerUnit.length ? tickerUnit.concat(tickerUnit) : [];
 
   return (
     <header className={`bg-white sticky top-0 z-40 border-b border-gray-200 transition-shadow duration-300 ${scrolled ? 'shadow-md' : ''}`}>

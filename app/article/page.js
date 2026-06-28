@@ -53,14 +53,14 @@ export default async function ArticlePage({ searchParams }) {
         <span className="text-sm text-gray-400">{native ? 'سنڌي ذريعو' : 'سنڌيءَ ۚ ترجمو ٹيل'}</span>
       </div>
 
-      <h1 className="text-[2rem] font-bold leading-relaxed text-ink mb-5">{titleSd}</h1>
+      <h1 className="text-[2.5rem] font-medium leading-relaxed text-ink mb-5">{titleSd}</h1>
 
       {data.image ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={data.image} alt="" className="w-full rounded-2xl mb-6" />
       ) : null}
 
-      <div className="space-y-4 text-[1.6rem] leading-loose text-gray-800">
+      <div className="space-y-4 text-[2rem] leading-none text-gray-800">
         {paras.map((p, i) => <p key={i}>{p}</p>)}
       </div>
 

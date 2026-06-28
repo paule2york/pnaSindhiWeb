@@ -65,7 +65,7 @@ body {
   gap: 2.5rem;
   white-space: nowrap;
   padding: 0.5rem 1rem;
-  animation: tickerScroll 35s linear infinite;
+  animation: tickerScroll 70s linear infinite;
 }
 @keyframes tickerScroll {
   0% { transform: translateX(0); }
