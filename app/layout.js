@@ -3,10 +3,10 @@ import { Lateef } from 'next/font/google';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
 
-const sindhi = Lateef({
+const lateef = Lateef({
   subsets: ['arabic'],
   weight: ['400', '500', '700'],
-  variable: '--font-sindhi',
+  variable: '--font-lateef',
 });
 
 export const metadata = {
@@ -20,7 +20,7 @@ const themeProps = { __html: themeScript };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="sd" dir="rtl" className={sindhi.variable}>
+    <html lang="sd" dir="rtl" className={lateef.variable}>
       <head>
         <script dangerouslySetInnerHTML={themeProps} />
       </head>
