@@ -49,7 +49,7 @@ export default async function Home({ searchParams }) {
                 ) : null}
                 <div className="flex-1">
                   <span className="text-xs text-accent font-bold">{n.sourceName}</span>
-                  <h3 className="text-base font-bold leading-relaxed text-ink line-clamp-3 group-hover:text-brand">{n.title}</h3>
+                  <h3 className="text-[1.25rem] font-bold leading-none text-ink line-clamp-3 group-hover:text-brand">{n.title}</h3>
                 </div>
               </Link>
             ))}
@@ -81,9 +81,17 @@ export default async function Home({ searchParams }) {
           </h2>
           <div className="divide-y divide-gray-200">
             {leftList.map((n) => (
-              <Link key={n.id} href={articleHref(n)} className="block py-3 group">
-                <span className="text-xs text-accent font-bold">{n.sourceName}</span>
-                <h3 className="text-base font-bold leading-relaxed text-ink line-clamp-3 group-hover:text-brand">{n.title}</h3>
+              <Link key={n.id} href={articleHref(n)} className="flex gap-3 py-3 group">
+                {n.image ? (
+                  <div className="w-20 h-16 shrink-0 rounded-lg overflow-hidden bg-gray-100">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={n.image} alt="" className="w-full h-full object-cover" loading="lazy" />
+                  </div>
+                ) : null}
+                <div className="flex-1">
+                  <span className="text-xs text-accent font-bold">{n.sourceName}</span>
+                  <h3 className="text-[1.25rem] font-bold leading-none text-ink line-clamp-3 group-hover:text-brand">{n.title}</h3>
+                </div>
               </Link>
             ))}
           </div>
