@@ -11,7 +11,7 @@ export default function CitySelector() {
         {CITIES.map((c) => (
           <button
             key={c.slug}
-            onClick={() => router.push(`/${c.slug}/local`)}
+            onClick={() => router.push(`/${c.slug}`)}
             className="card-hover bg-white border border-brand-light rounded-2xl py-4 font-bold text-ink hover:text-brand"
           >{c.name}</button>
         ))}

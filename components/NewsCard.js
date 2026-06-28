@@ -27,7 +27,7 @@ export default function NewsCard({ item }) {
       {item.image ? (
         <div className="aspect-[16/9] overflow-hidden bg-gray-100">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={item.image} alt="" className="w-full h-full object-cover" loading="lazy" />
+          <img src={item.image} alt="" className="w-full h-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
         </div>
       ) : null}
       <div className="p-5 flex flex-col flex-1">
@@ -37,13 +37,13 @@ export default function NewsCard({ item }) {
           </span>
           {item.pubDate ? <span className="text-[11px] text-gray-400">{fmt(item.pubDate)}</span> : null}
         </div>
-        <h3 className="font-bold text-lg leading-relaxed text-ink mb-1">{item.title}</h3>
+        <h3 className="font-bold text-lg leading-relaxed text-ink mb-1 transition-colors group-hover:text-brand">{item.title}</h3>
         {item.description ? (
           <p className="text-sm text-gray-600 leading-loose line-clamp-3">{item.description}</p>
         ) : null}
         {href ? (
           <span className="inline-block mt-3 text-sm text-brand font-bold">
-            {isNative ? 'مڪمل پڑهو ←' : 'مڪمل پڑهو (ترجمو) ←'}
+            {isNative ? 'مڊمل پڑهو ←' : 'مڊمل پڑهو (ترجمو) ←'}
           </span>
         ) : null}
       </div>
@@ -51,6 +51,6 @@ export default function NewsCard({ item }) {
   );
 
   return href ? (
-    <Link href={href} className="block h-full">{inner}</Link>
+    <Link href={href} className="group block h-full">{inner}</Link>
   ) : inner;
 }
