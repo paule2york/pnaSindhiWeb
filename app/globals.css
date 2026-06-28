@@ -45,6 +45,24 @@ body {
   100% { box-shadow: 0 0 0 0 rgba(255, 59, 59, 0); }
 }
 
+/* SAMAA-style header bits */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.ticker-wrap:hover .ticker-track { animation-play-state: paused; }
+.ticker-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 2.5rem;
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+  animation: tickerScroll 35s linear infinite;
+}
+@keyframes tickerScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 /* ---------- Dark mode ---------- */
 html.dark { color-scheme: dark; }
 html.dark body { background: #0f1513; color: #e7ece9; }
@@ -53,9 +71,11 @@ html.dark .bg-gray-50 { background-color: #1c2522 !important; }
 html.dark .bg-gray-100 { background-color: #222b27 !important; }
 html.dark .bg-gray-200 { background-color: #2b3733 !important; }
 html.dark .bg-gray-300 { background-color: #33403b !important; }
+html.dark .bg-brand-light { background-color: #13302a !important; }
 html.dark .border-gray-100,
 html.dark .border-gray-200,
 html.dark .border-brand-light { border-color: #2b3733 !important; }
+html.dark .divide-gray-200 > * { border-color: #2b3733 !important; }
 html.dark .text-ink { color: #e7ece9 !important; }
 html.dark .text-gray-400 { color: #7d8d88 !important; }
 html.dark .text-gray-500,

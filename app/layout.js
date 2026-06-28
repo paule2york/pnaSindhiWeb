@@ -1,6 +1,6 @@
 import './globals.css';
 import { Noto_Naskh_Arabic } from 'next/font/google';
-import VerticalMenu from '../components/VerticalMenu';
+import SiteHeader from '../components/SiteHeader';
 
 const sindhi = Noto_Naskh_Arabic({
   subsets: ['arabic'],
@@ -24,10 +24,8 @@ export default function RootLayout({ children }) {
         <script dangerouslySetInnerHTML={themeProps} />
       </head>
       <body>
-        <div className="flex min-h-screen">
-          <VerticalMenu />
-          <main className="flex-1 min-w-0">{children}</main>
-        </div>
+        <SiteHeader />
+        <main className="max-w-6xl mx-auto min-h-screen">{children}</main>
       </body>
     </html>
   );
