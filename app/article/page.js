@@ -10,6 +10,8 @@ export const maxDuration = 60;
 
 export const metadata = { title: 'خبر | پنا سنڌي' };
 
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://pna-sindhi-web.vercel.app';
+
 function articleHref(item) {
   if (item.source === 'local' || !item.link) return '/';
   return `/article?u=${item.id}&s=${encodeURIComponent(item.sourceName || '')}${item.native ? '&n=1' : ''}`;
@@ -66,7 +68,6 @@ function SidebarItem({ n }) {
         </div>
       ) : null}
       <div className="flex-1">
-        <span className="text-xs text-accent font-bold">{n.sourceName}</span>
         <h3 className="text-base font-bold leading-snug text-ink line-clamp-3 group-hover:text-brand">{n.title}</h3>
       </div>
     </Link>
@@ -90,8 +91,7 @@ export default async function ArticlePage({ searchParams }) {
     return (
       <div className="max-w-3xl mx-auto px-6 py-16 text-center">
         <p className="text-gray-600 mb-4">هيءَ خبر هتي دڈائي نه ٹي سگهي.</p>
-        <a href={url} target="_blank" rel="noreferrer" className="text-brand font-bold">اصل خبر پڊرهو ↗</a>
-        <div className="mt-6"><Link href="/" className="text-sm text-gray-500">→ واپس مُك صفحي تي</Link></div>
+        <div className="mt-2"><Link href="/" className="text-sm text-brand font-bold">→ واپس مُك صفحي تي</Link></div>
       </div>
     );
   }
@@ -105,6 +105,7 @@ export default async function ArticlePage({ searchParams }) {
   const popular = feed.slice(0, 6);
   const related = feed.slice(6, 12);
   const relTime = timeAgoSindhi(data.publishedDate);
+  const pageUrl = `${SITE}/article?u=${token}&s=${encodeURIComponent(sourceName)}${native ? '&n=1' : ''}`;
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
@@ -124,27 +125,18 @@ export default async function ArticlePage({ searchParams }) {
                 {relTime ? <div className="text-xs text-gray-500">{relTime}</div> : null}
               </div>
             </div>
-            <ShareRow url={url} title={data.title} />
+            <ShareRow url={pageUrl} title={titleSd} />
           </div>
 
           {data.image ? (
-            <figure className="mb-2">
+            <figure className="mb-7">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={data.image} alt="" className="w-full rounded-2xl" />
             </figure>
           ) : null}
-          {sourceName || data.siteName ? (
-            <div className="text-center text-sm text-gray-400 mb-7">{sourceName || data.siteName}</div>
-          ) : null}
 
           <div className="space-y-4 text-[2rem] leading-none text-gray-800">
             {paras.map((p, i) => <p key={i}>{p}</p>)}
-          </div>
-
-          <div className="mt-8 pt-5 border-t border-gray-200 text-sm text-gray-500">
-            اصل خبر:{' '}
-            <a href={url} target="_blank" rel="noreferrer" className="text-brand font-bold">{sourceName || 'ماخذ'} ↗</a>
-            {native ? null : <p className="text-[11px] text-gray-400 mt-2">نوٹ: ترجمو خودڈار (مشيني) آهي.</p>}
           </div>
 
           {related.length ? (
