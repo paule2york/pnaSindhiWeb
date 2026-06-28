@@ -12,6 +12,7 @@ body {
   font-family: var(--font-sindhi);
   background: #f5f7f6;
   color: #1a1a1a;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .brand-gradient {
@@ -44,6 +45,23 @@ body {
   100% { box-shadow: 0 0 0 0 rgba(255, 59, 59, 0); }
 }
 
+/* ---------- Dark mode ---------- */
+html.dark { color-scheme: dark; }
+html.dark body { background: #0f1513; color: #e7ece9; }
+html.dark .bg-white { background-color: #19211e !important; }
+html.dark .bg-gray-50 { background-color: #1c2522 !important; }
+html.dark .bg-gray-100 { background-color: #222b27 !important; }
+html.dark .border-gray-100,
+html.dark .border-gray-200,
+html.dark .border-brand-light { border-color: #2b3733 !important; }
+html.dark .text-ink { color: #e7ece9 !important; }
+html.dark .text-gray-500,
+html.dark .text-gray-600 { color: #9fb0aa !important; }
+html.dark .text-brand-dark { color: #43d3a8 !important; }
+html.dark .card-hover:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.45); }
+
 ::-webkit-scrollbar { width: 9px; height: 9px; }
 ::-webkit-scrollbar-thumb { background: #c3cfca; border-radius: 9999px; }
 ::-webkit-scrollbar-thumb:hover { background: #0d7a5f; }
+html.dark ::-webkit-scrollbar-thumb { background: #2b3733; }
+html.dark ::-webkit-scrollbar-thumb:hover { background: #14a37f; }

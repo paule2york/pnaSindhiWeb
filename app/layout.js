@@ -13,9 +13,14 @@ export const metadata = {
   description: 'سنڌي خبرون — شهر وار ٔ اين زمري وار ٔ خبرون',
 };
 
+const themeScript = `(function(){try{var t=localStorage.getItem('theme');var d=t==='dark'||(!t&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.classList.add('dark');}}catch(e){}})();`;
+
 export default function RootLayout({ children }) {
   return (
     <html lang="sd" dir="rtl" className={sindhi.variable}>
+      <head>
+        <script dangerouslySetInnerHTML= __html: themeScript  />
+      </head>
       <body>
         <div className="flex min-h-screen">
           <VerticalMenu />

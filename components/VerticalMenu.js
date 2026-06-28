@@ -4,6 +4,8 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { CATEGORIES } from '../lib/data';
 import { SOURCES } from '../lib/rss';
+import SearchBox from './SearchBox';
+import ThemeToggle from './ThemeToggle';
 
 export default function VerticalMenu() {
   const pathname = usePathname();
@@ -32,6 +34,9 @@ export default function VerticalMenu() {
           <div className="flex items-center gap-2 mt-2">
             <span className="live-dot" />
             <span className="text-white/70 text-xs">سنڌي خبرون جو لائيو چينل</span>
+          </div>
+          <div className="mt-4">
+            <SearchBox />
           </div>
         </div>
 
@@ -70,8 +75,9 @@ export default function VerticalMenu() {
           </div>
         </div>
 
-        <div className="px-5 mt-7 pb-8 pt-5 border-t border-white/15">
-          <Link href="/cms/login" onClick={() => setOpen(false)} className="text-sm text-white/80 hover:text-white">✍️ صحافي لاگ ان</Link>
+        <div className="px-5 mt-7 pb-8 pt-5 border-t border-white/15 space-y-4">
+          <ThemeToggle />
+          <Link href="/cms/login" onClick={() => setOpen(false)} className="block text-sm text-white/80 hover:text-white">✍️ صحافي لاگ ان</Link>
         </div>
       </aside>
     </>
