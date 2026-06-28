@@ -10,6 +10,11 @@ export const maxDuration = 60;
 
 export const metadata = { title: 'خبر | پنا سنڌي' };
 
+function articleHref(item) {
+  if (item.source === 'local' || !item.link) return '/';
+  return `/article?u=${item.id}&s=${encodeURIComponent(item.sourceName || '')}${item.native ? '&n=1' : ''}`;
+}
+
 function ShareRow({ url, title }) {
   const u = encodeURIComponent(url || '');
   const t = encodeURIComponent(title || '');
@@ -29,6 +34,23 @@ function ShareRow({ url, title }) {
         <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor"><path d="M17.5 3h3l-6.6 7.5L21.7 21h-5.6l-4.4-5.7L6.7 21H3.7l7-8L2.6 3h5.7l4 5.3L17.5 3zm-1 16h1.6L7.6 4.7H5.9L16.5 19z"/></svg>
       </a>
     </div>
+  );
+}
+
+function SidebarItem({ n }) {
+  return (
+    <Link href={articleHref(n)} className="flex gap-3 py-3 group">
+      {n.image ? (
+        <div className="w-20 h-16 shrink-0 rounded-lg overflow-hidden bg-gray-100">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={n.image} alt="" className="w-full h-full object-cover" loading="lazy" />
+        </div>
+      ) : null}
+      <div className="flex-1">
+        <span className="text-xs text-accent font-bold">{n.sourceName}</span>
+        <h3 className="text-base font-bold leading-snug text-ink line-clamp-3 group-hover:text-brand">{n.title}</h3>
+      </div>
+    </Link>
   );
 }
 
@@ -55,60 +77,71 @@ export default async function ArticlePage({ searchParams }) {
     );
   }
 
-  const [titleSd, paras, relatedRaw] = await Promise.all([
+  const [titleSd, paras, feedRaw] = await Promise.all([
     native ? Promise.resolve(data.title) : toSindhi(data.title),
     native ? Promise.resolve(data.paragraphs.slice(0, 20)) : toSindhiMany(data.paragraphs.slice(0, 20)),
-    fetchFeedNews('top', 9),
+    fetchFeedNews('top', 14),
   ]);
-  const related = (relatedRaw || []).filter((n) => n.link && n.link !== url).slice(0, 6);
+  const feed = (feedRaw || []).filter((n) => n.link && n.link !== url);
+  const popular = feed.slice(0, 6);
+  const related = feed.slice(6, 12);
 
   return (
-    <article className="max-w-3xl mx-auto px-5 py-8">
-      <div className="mb-5">
-        <Link href="/" className="text-sm text-brand font-bold">→ واپس</Link>
-      </div>
-
-      <h1 className="text-[2.5rem] font-bold leading-snug text-ink text-center">{titleSd}</h1>
-
-      <div className="mt-5 mb-6 flex flex-col items-center gap-4">
-        <div className="text-sm text-gray-500">
-          <span className="text-accent font-bold">{sourceName || data.siteName || 'خبر'}</span>
-          <span className="mx-2">•</span>
-          <span>{native ? 'سنڌي ذريعو' : 'سنڌيءَ ۚ ترجمو ٹيل'}</span>
-        </div>
-        <ShareRow url={url} title={data.title} />
-      </div>
-
-      {data.image ? (
-        <figure className="mb-2">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={data.image} alt="" className="w-full rounded-2xl" />
-        </figure>
-      ) : null}
-      {sourceName || data.siteName ? (
-        <div className="text-center text-sm text-gray-400 mb-7">{sourceName || data.siteName}</div>
-      ) : null}
-
-      <div className="space-y-5 text-[2rem] leading-relaxed text-gray-800">
-        {paras.map((p, i) => (
-          <p key={i} className={i === 0 ? 'font-bold text-ink' : ''}>{p}</p>
-        ))}
-      </div>
-
-      <div className="mt-8 pt-5 border-t border-gray-200 text-sm text-gray-500">
-        اصل خبر:{' '}
-        <a href={url} target="_blank" rel="noreferrer" className="text-brand font-bold">{sourceName || 'ماخذ'} ↗</a>
-        {native ? null : <p className="text-[11px] text-gray-400 mt-2">نوٹ: ترجمو خودڈار (مشيني) آهي.</p>}
-      </div>
-
-      {related.length ? (
-        <section className="mt-12">
-          <h2 className="text-[2rem] font-bold mb-5 text-brand-dark border-r-4 border-accent pr-3">متعلقه خبرون</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {related.map((n) => <NewsCard key={n.id} item={n} />)}
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="grid lg:grid-cols-4 gap-8">
+        <article className="lg:col-span-3">
+          <div className="mb-5">
+            <Link href="/" className="text-sm text-brand font-bold">→ واپس</Link>
           </div>
-        </section>
-      ) : null}
-    </article>
+
+          <h1 className="text-[2.5rem] font-medium leading-relaxed text-ink text-center">{titleSd}</h1>
+
+          <div className="mt-5 mb-6 flex flex-col items-center gap-4">
+            <div className="text-sm text-gray-500">
+              <span className="text-accent font-bold">{sourceName || data.siteName || 'خبر'}</span>
+              <span className="mx-2">•</span>
+              <span>{native ? 'سنڌي ذريعو' : 'سنڌيءَ ۚ ترجمو ٹيل'}</span>
+            </div>
+            <ShareRow url={url} title={data.title} />
+          </div>
+
+          {data.image ? (
+            <figure className="mb-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={data.image} alt="" className="w-full rounded-2xl" />
+            </figure>
+          ) : null}
+          {sourceName || data.siteName ? (
+            <div className="text-center text-sm text-gray-400 mb-7">{sourceName || data.siteName}</div>
+          ) : null}
+
+          <div className="space-y-4 text-[2rem] leading-none text-gray-800">
+            {paras.map((p, i) => <p key={i}>{p}</p>)}
+          </div>
+
+          <div className="mt-8 pt-5 border-t border-gray-200 text-sm text-gray-500">
+            اصل خبر:{' '}
+            <a href={url} target="_blank" rel="noreferrer" className="text-brand font-bold">{sourceName || 'ماخذ'} ↗</a>
+            {native ? null : <p className="text-[11px] text-gray-400 mt-2">نوٹ: ترجمو خودڈار (مشيني) آهي.</p>}
+          </div>
+
+          {related.length ? (
+            <section className="mt-12">
+              <h2 className="text-[2rem] font-bold mb-5 text-brand-dark border-r-4 border-accent pr-3">متعلقه خبرون</h2>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {related.map((n) => <NewsCard key={n.id} item={n} />)}
+              </div>
+            </section>
+          ) : null}
+        </article>
+
+        <aside className="lg:col-span-1">
+          <h2 className="text-base font-bold text-accent border-b-2 border-accent pb-1 mb-3">مقبول ترين</h2>
+          <div className="divide-y divide-gray-200">
+            {popular.map((n) => <SidebarItem key={n.id} n={n} />)}
+          </div>
+        </aside>
+      </div>
+    </div>
   );
 }
