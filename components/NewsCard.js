@@ -32,17 +32,17 @@ export default function NewsCard({ item }) {
       ) : null}
       <div className="p-5 flex flex-col flex-1">
         <div className="flex items-center gap-2 mb-2">
-          <span className={`text-[11px] px-2 py-0.5 rounded-full font-bold ${badgeClass}`}>
+          <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${badgeClass}`}>
             {isLocal ? 'مقامي صحافي' : (item.sourceName || 'خبر')}
           </span>
-          {item.pubDate ? <span className="text-[11px] text-gray-400">{fmt(item.pubDate)}</span> : null}
+          {item.pubDate ? <span className="text-xs text-gray-400">{fmt(item.pubDate)}</span> : null}
         </div>
-        <h3 className="font-bold text-lg leading-relaxed text-ink mb-1 transition-colors group-hover:text-brand">{item.title}</h3>
+        <h3 className="font-bold text-[1.6rem] leading-relaxed text-ink mb-1 transition-colors group-hover:text-brand">{item.title}</h3>
         {item.description ? (
-          <p className="text-sm text-gray-600 leading-loose line-clamp-3">{item.description}</p>
+          <p className="text-[1.3rem] text-gray-600 leading-loose line-clamp-3">{item.description}</p>
         ) : null}
         {href ? (
-          <span className="inline-block mt-3 text-sm text-brand font-bold">
+          <span className="inline-block mt-3 text-base text-brand font-bold">
             {isNative ? 'مڊمل پڑهو ←' : 'مڊمل پڑهو (ترجمو) ←'}
           </span>
         ) : null}

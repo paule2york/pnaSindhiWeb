@@ -17,8 +17,8 @@ export default async function CategorySection({ slug }) {
   return (
     <div>
       <div className="flex items-center justify-between border-b-2 border-accent mb-3 pb-1">
-        <h2 className="text-lg font-bold text-brand-dark">{categoryName(slug)}</h2>
-        <Link href={`/?cat=${slug}`} className="text-xs text-gray-500 hover:text-brand">وڊيڪ ←</Link>
+        <h2 className="text-[2rem] font-bold text-brand-dark">{categoryName(slug)}</h2>
+        <Link href={`/?cat=${slug}`} className="text-sm text-gray-500 hover:text-brand">وڊيڈ ←</Link>
       </div>
 
       <Link href={linkFor(lead)} className="group block">
@@ -28,13 +28,13 @@ export default async function CategorySection({ slug }) {
             <img src={lead.image} alt="" className="w-full h-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
           </div>
         ) : null}
-        <h3 className="font-bold leading-relaxed text-ink group-hover:text-brand line-clamp-3">{lead.title}</h3>
+        <h3 className="font-bold text-[1.3rem] leading-relaxed text-ink group-hover:text-brand line-clamp-3">{lead.title}</h3>
       </Link>
 
       <div className="divide-y divide-gray-200 mt-2">
         {rest.map((n) => (
           <Link key={n.id} href={linkFor(n)} className="block py-2 group">
-            <h4 className="text-sm font-bold text-ink leading-relaxed line-clamp-2 group-hover:text-brand">{n.title}</h4>
+            <h4 className="text-base font-bold text-ink leading-relaxed line-clamp-2 group-hover:text-brand">{n.title}</h4>
           </Link>
         ))}
       </div>

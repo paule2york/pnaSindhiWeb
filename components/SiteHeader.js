@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { CATEGORIES, CITIES } from '../lib/data';
 
 function navClass(active) {
-  return `shrink-0 whitespace-nowrap text-base px-3.5 py-2 rounded-full transition ${active ? 'bg-brand text-white font-bold' : 'text-ink hover:bg-brand-light hover:text-brand-dark'}`;
+  return `shrink-0 whitespace-nowrap text-[2rem] px-3.5 py-2 rounded-full transition ${active ? 'bg-brand text-white font-bold' : 'text-ink hover:bg-brand-light hover:text-brand-dark'}`;
 }
 
 export default function SiteHeader() {
@@ -68,22 +68,22 @@ export default function SiteHeader() {
           </Link>
           <div className="w-28 shrink-0 text-left text-accent text-xs leading-5">
             <div>{date}</div>
-            <Link href="/" className="font-bold hover:underline">لائيو خبرون</Link>
+            <Link href="/" className="font-bold hover:underline">لايي خبرون</Link>
           </div>
         </div>
       </div>
 
-      <div className={`bg-gray-50 border-gray-200 flex items-stretch overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0 border-0' : 'max-h-12 opacity-100 border-y'}`}>
-        <span className="bg-accent text-white text-sm font-bold px-4 flex items-center shrink-0">هيڊ لائنز</span>
+      <div className={`bg-gray-50 border-gray-200 flex items-stretch overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0 border-0' : 'max-h-16 opacity-100 border-y'}`}>
+        <span className="bg-accent text-white text-base font-bold px-4 flex items-center shrink-0">هيڊ لائنز</span>
         <div className="ticker-wrap flex-1 overflow-hidden">
           {tickerItems.length ? (
             <div className="ticker-track">
               {tickerItems.map((h, i) => (
-                <Link key={i} href={h.href || '/'} className="text-sm text-ink hover:text-brand">• {h.title}</Link>
+                <Link key={i} href={h.href || '/'} className="text-[1.5rem] text-ink hover:text-brand">• {h.title}</Link>
               ))}
             </div>
           ) : (
-            <div className="text-sm text-ink px-4 py-2">پنا سنڌي — سنڌ ڽ پاڪستان جون تازيون خبرون سنڌيءَ ۾</div>
+            <div className="text-[1.5rem] text-ink px-4 py-2">پنا سنڌي — سنڌ ڍ پاڈستان جون تازيون خبرون سنڌيءَ ۚ</div>
           )}
         </div>
       </div>
@@ -102,7 +102,7 @@ export default function SiteHeader() {
             )}
           </Link>
           <form onSubmit={submitSearch} className="relative shrink-0">
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="ڳوليو…" className="w-28 focus:w-44 transition-all rounded-full bg-gray-100 text-base px-4 py-2 outline-none" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="ڋوليو…" className="w-28 focus:w-44 transition-all rounded-full bg-gray-100 text-base px-4 py-2 outline-none" />
           </form>
           <Link href="/" className={navClass(pathname === '/')}>پهريون صفحو</Link>
           {CATEGORIES.map((c) => (

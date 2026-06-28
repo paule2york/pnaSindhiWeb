@@ -24,9 +24,9 @@ export default async function ArticlePage({ searchParams }) {
   if (!data || !data.paragraphs || data.paragraphs.length === 0) {
     return (
       <div className="max-w-3xl mx-auto px-6 py-16 text-center">
-        <p className="text-gray-600 mb-4">هيءَ خبر هتي دڨائي نه ٿي سگهي.</p>
-        <a href={url} target="_blank" rel="noreferrer" className="text-brand font-bold">اصل خبر پڙهو ↗</a>
-        <div className="mt-6"><Link href="/" className="text-sm text-gray-500">→ واپس مُک صفحي تي</Link></div>
+        <p className="text-gray-600 mb-4">هيءَ خبر هتي دڈائي نه ٹي سگهي.</p>
+        <a href={url} target="_blank" rel="noreferrer" className="text-brand font-bold">اصل خبر پڊرهو ↗</a>
+        <div className="mt-6"><Link href="/" className="text-sm text-gray-500">→ واپس مُك صفحي تي</Link></div>
       </div>
     );
   }
@@ -49,25 +49,25 @@ export default async function ArticlePage({ searchParams }) {
       <Link href="/" className="text-sm text-brand font-bold">→ واپس</Link>
 
       <div className="flex items-center gap-2 mt-4 mb-3">
-        <span className="bg-brand-light text-brand-dark text-[11px] px-2 py-0.5 rounded-full font-bold">{sourceName || data.siteName || 'خبر'}</span>
-        <span className="text-[11px] text-gray-400">{native ? 'سنڌي ذريعو' : 'سنڌيءَ ۾ ترجمو ٿيل'}</span>
+        <span className="bg-brand-light text-brand-dark text-sm px-2 py-0.5 rounded-full font-bold">{sourceName || data.siteName || 'خبر'}</span>
+        <span className="text-sm text-gray-400">{native ? 'سنڌي ذريعو' : 'سنڌيءَ ۚ ترجمو ٹيل'}</span>
       </div>
 
-      <h1 className="text-2xl md:text-3xl font-bold leading-relaxed text-ink mb-5">{titleSd}</h1>
+      <h1 className="text-[2rem] font-bold leading-relaxed text-ink mb-5">{titleSd}</h1>
 
       {data.image ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={data.image} alt="" className="w-full rounded-2xl mb-6" />
       ) : null}
 
-      <div className="space-y-4 text-lg leading-loose text-gray-800">
+      <div className="space-y-4 text-[1.6rem] leading-loose text-gray-800">
         {paras.map((p, i) => <p key={i}>{p}</p>)}
       </div>
 
       <div className="mt-8 pt-5 border-t border-gray-200 text-sm text-gray-500">
         اصل خبر:{' '}
         <a href={url} target="_blank" rel="noreferrer" className="text-brand font-bold">{sourceName || 'ماخذ'} ↗</a>
-        {native ? null : <p className="text-[11px] text-gray-400 mt-2">نوٽ: ترجمو خودڪار (مشيني) آهي.</p>}
+        {native ? null : <p className="text-[11px] text-gray-400 mt-2">نوٹ: ترجمو خودڈار (مشيني) آهي.</p>}
       </div>
     </article>
   );
