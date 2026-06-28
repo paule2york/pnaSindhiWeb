@@ -15,6 +15,25 @@ function articleHref(item) {
   return `/article?u=${item.id}&s=${encodeURIComponent(item.sourceName || '')}${item.native ? '&n=1' : ''}`;
 }
 
+function timeAgoSindhi(dateStr) {
+  if (!dateStr) return '';
+  const then = new Date(dateStr).getTime();
+  if (isNaN(then)) return '';
+  const sec = Math.max(0, Math.floor((Date.now() - then) / 1000));
+  const min = Math.floor(sec / 60);
+  const hr = Math.floor(min / 60);
+  const day = Math.floor(hr / 24);
+  const month = Math.floor(day / 30);
+  const year = Math.floor(day / 365);
+  const ago = 'اڳ';
+  if (sec < 60) return 'هاڻي';
+  if (min < 60) return min + ' منٽ ' + ago;
+  if (hr < 24) return hr + ' ڪلاڪ ' + ago;
+  if (day < 30) return day + ' ڏينهن ' + ago;
+  if (month < 12) return month + ' ' + (month === 1 ? 'مهينو' : 'مهينا') + ' ' + ago;
+  return year + ' سال ' + ago;
+}
+
 function ShareRow({ url, title }) {
   const u = encodeURIComponent(url || '');
   const t = encodeURIComponent(title || '');
@@ -85,6 +104,7 @@ export default async function ArticlePage({ searchParams }) {
   const feed = (feedRaw || []).filter((n) => n.link && n.link !== url);
   const popular = feed.slice(0, 6);
   const related = feed.slice(6, 12);
+  const relTime = timeAgoSindhi(data.publishedDate);
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
@@ -96,11 +116,13 @@ export default async function ArticlePage({ searchParams }) {
 
           <h1 className="text-[2.5rem] font-medium leading-relaxed text-ink text-center">{titleSd}</h1>
 
-          <div className="mt-5 mb-6 flex flex-col items-center gap-4">
-            <div className="text-sm text-gray-500">
-              <span className="text-accent font-bold">{sourceName || data.siteName || 'خبر'}</span>
-              <span className="mx-2">•</span>
-              <span>{native ? 'سنڌي ذريعو' : 'سنڌيءَ ۚ ترجمو ٹيل'}</span>
+          <div className="flex items-center justify-between border-y border-gray-200 py-3 mt-5 mb-7">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-brand-light text-brand-dark flex items-center justify-center font-bold text-lg">پ</div>
+              <div className="leading-tight">
+                <div className="text-sm font-bold text-ink">ويب ڊيسڪ</div>
+                {relTime ? <div className="text-xs text-gray-500">{relTime}</div> : null}
+              </div>
             </div>
             <ShareRow url={url} title={data.title} />
           </div>
