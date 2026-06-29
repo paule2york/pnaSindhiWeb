@@ -3,6 +3,14 @@
 @tailwind utilities;
 
 @font-face {
+  font-family: 'MB Sindhi Web';
+  src: url('/MB-Sindhi-Web.ttf') format('truetype');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'MB Khursheed';
   src: url('/MBKhursheed2.ttf') format('truetype');
   font-weight: 400 700;
@@ -11,7 +19,7 @@
 }
 
 :root {
-  --font-sindhi: 'MB Khursheed', var(--font-lateef), 'Noto Naskh Arabic', 'MB Lateefi', serif;
+  --font-sindhi: 'MB Sindhi Web', 'MB Khursheed', var(--font-lateef), 'Noto Naskh Arabic', 'MB Lateefi', serif;
   --font-legacy: var(--font-lateef), 'Noto Naskh Arabic', 'MB Lateefi', serif;
 }
 
