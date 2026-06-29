@@ -107,7 +107,7 @@ export default function SiteHeader() {
       </div>
 
       <nav className="max-w-6xl mx-auto px-4 border-t border-gray-100">
-        <div className={`flex items-center gap-x-6 overflow-x-auto no-scrollbar transition-all duration-300 ${scrolled ? 'justify-start' : 'justify-start lg:justify-center'}`}>
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 py-1">
           <Link href="/" aria-label="home" className={`shrink-0 flex items-center overflow-hidden transition-all duration-300 ${scrolled ? 'w-auto opacity-100 ml-1' : 'w-0 opacity-0'}`}>
             {logoOk ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -119,7 +119,7 @@ export default function SiteHeader() {
               </span>
             )}
           </Link>
-          <Link href="/" className={navClass(pathname === '/')}>پهريون صفحو</Link>
+          <Link href="/" className={navClass(pathname === '/')}>پهريون صفو</Link>
           {CATEGORIES.map((c) => (
             <Link key={c.slug} href={city ? `/${city}/${c.slug}` : `/?cat=${c.slug}`} className={navClass(isCat(c.slug))}>{c.name}</Link>
           ))}
