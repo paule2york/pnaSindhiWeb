@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { CATEGORIES, CITIES } from '../lib/data';
 
 function navClass(active) {
-  return `shrink-0 whitespace-nowrap text-[1.55rem] py-3 border-b-2 transition-colors duration-200 ${active ? 'text-brand font-bold border-brand' : 'text-ink hover:text-brand border-transparent'}`;
+  return `shrink-0 whitespace-nowrap text-[1.55rem] font-semibold py-3 border-b-2 transition-colors duration-200 ${active ? 'text-brand font-extrabold border-brand' : 'text-ink hover:text-brand border-transparent'}`;
 }
 
 export default function SiteHeader() {
@@ -85,7 +85,7 @@ export default function SiteHeader() {
       </div>
 
       <div className={`bg-gray-50 border-gray-200 flex items-stretch overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0 border-0' : 'max-h-16 opacity-100 border-y'}`}>
-        <span className="bg-accent text-white text-base font-bold px-4 flex items-center shrink-0">هيڈ لائنز</span>
+        <span className="bg-accent text-white text-base font-bold px-4 flex items-center shrink-0">هيڊ لائنز</span>
         <div className="ticker-wrap flex-1 overflow-hidden">
           {tickerUnit.length ? (
             <div className="ticker-track">
@@ -101,7 +101,7 @@ export default function SiteHeader() {
               </div>
             </div>
           ) : (
-            <div className="text-[1.5rem] text-ink px-4 py-2">پنا سنڌي — سنڌ ڈ پاڈستان جون تازيون خبرون سنڌيءَ ۚ</div>
+            <div className="text-[1.5rem] text-ink px-4 py-2">پنا سنڌي — سنڌ ۽ پاڪستان جون تازيون خبرون سنڌيءَ ۾</div>
           )}
         </div>
       </div>
@@ -119,7 +119,7 @@ export default function SiteHeader() {
               </span>
             )}
           </Link>
-          <Link href="/" className={navClass(pathname === '/')}>پهريون صفو</Link>
+          <Link href="/" className={navClass(pathname === '/')}>پهريون صفحو</Link>
           {CATEGORIES.map((c) => (
             <Link key={c.slug} href={city ? `/${city}/${c.slug}` : `/?cat=${c.slug}`} className={navClass(isCat(c.slug))}>{c.name}</Link>
           ))}
