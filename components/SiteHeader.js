@@ -1,21 +1,19 @@
 'use client';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { CATEGORIES, CITIES } from '../lib/data';
 
 function navClass(active) {
-  return `shrink-0 whitespace-nowrap text-[2rem] px-3.5 py-2 rounded-full transition ${active ? 'bg-brand text-white font-bold' : 'text-ink hover:bg-brand-light hover:text-brand-dark'}`;
+  return `shrink-0 whitespace-nowrap text-[1.55rem] py-3 border-b-2 transition-colors duration-200 ${active ? 'text-brand font-bold border-brand' : 'text-ink hover:text-brand border-transparent'}`;
 }
 
 export default function SiteHeader() {
   const pathname = usePathname();
-  const router = useRouter();
   const seg = pathname?.split('/')[1] || '';
   const city = CITIES.some((c) => c.slug === seg) ? seg : '';
   const [date, setDate] = useState('');
   const [heads, setHeads] = useState([]);
-  const [q, setQ] = useState('');
   const [dark, setDark] = useState(false);
   const [logoOk, setLogoOk] = useState(true);
   const [scrolled, setScrolled] = useState(false);
@@ -47,11 +45,6 @@ export default function SiteHeader() {
     return () => { window.removeEventListener('scroll', onScroll); clearTimeout(lockTimer); };
   }, []);
 
-  function submitSearch(e) {
-    e.preventDefault();
-    const v = q.trim();
-    if (v) router.push(`/search?q=${encodeURIComponent(v)}`);
-  }
   function toggleTheme() {
     const next = !dark;
     setDark(next);
@@ -113,8 +106,8 @@ export default function SiteHeader() {
         </div>
       </div>
 
-      <nav className="max-w-6xl mx-auto px-2">
-        <div className={`flex items-center gap-1.5 overflow-x-auto no-scrollbar transition-all duration-300 ${scrolled ? 'py-2 justify-start' : 'py-3 justify-start lg:justify-center'}`}>
+      <nav className="max-w-6xl mx-auto px-4 border-t border-gray-100">
+        <div className={`flex items-center gap-x-6 overflow-x-auto no-scrollbar transition-all duration-300 ${scrolled ? 'justify-start' : 'justify-start lg:justify-center'}`}>
           <Link href="/" aria-label="home" className={`shrink-0 flex items-center overflow-hidden transition-all duration-300 ${scrolled ? 'w-auto opacity-100 ml-1' : 'w-0 opacity-0'}`}>
             {logoOk ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -126,9 +119,6 @@ export default function SiteHeader() {
               </span>
             )}
           </Link>
-          <form onSubmit={submitSearch} className="relative shrink-0">
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="ڋوليو…" className="w-28 focus:w-44 transition-all rounded-full bg-gray-100 text-base px-4 py-2 outline-none" />
-          </form>
           <Link href="/" className={navClass(pathname === '/')}>پهريون صفحو</Link>
           {CATEGORIES.map((c) => (
             <Link key={c.slug} href={city ? `/${city}/${c.slug}` : `/?cat=${c.slug}`} className={navClass(isCat(c.slug))}>{c.name}</Link>

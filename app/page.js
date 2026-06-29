@@ -10,7 +10,7 @@ import { categoryName } from '../lib/data';
 export const revalidate = 900;
 export const maxDuration = 60;
 
-const SECTION_SLUGS = ['politics', 'world', 'business', 'sports', 'tech', 'entertainment'];
+const SECTION_SLUGS = ['pakistan', 'world', 'business', 'sports', 'health', 'entertainment'];
 
 function articleHref(item) {
   if (item.source === 'local' || !item.link) return '/';
