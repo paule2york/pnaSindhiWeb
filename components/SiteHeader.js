@@ -64,6 +64,19 @@ export default function SiteHeader() {
     tickerUnit = tickerUnit.concat(tickerBase);
   }
 
+  const renderItems = (prefix) =>
+    tickerUnit.map((h, i) => (
+      <span key={`${prefix}${i}`} className="inline-flex items-center gap-3">
+        <Link href={h.href || '/'} className="text-[1.5rem] text-ink hover:text-brand">{h.title}</Link>
+        {logoOk ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src="/logo.png" alt="" aria-hidden="true" className="h-6 w-auto opacity-25 grayscale shrink-0" />
+        ) : (
+          <span aria-hidden="true" className="text-brand/40 text-lg">◆</span>
+        )}
+      </span>
+    ));
+
   return (
     <header className={`bg-white sticky top-0 z-40 border-b border-gray-200 transition-shadow duration-300 ${scrolled ? 'shadow-md' : ''}`}>
       <div className={`overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0' : 'max-h-48 opacity-100'}`}>
@@ -93,16 +106,8 @@ export default function SiteHeader() {
         <span className="bg-accent text-white text-base font-bold px-4 flex items-center shrink-0">هيڊ لائنز</span>
         <div className="ticker-wrap flex-1 overflow-hidden">
           <div className="ticker-track">
-            <div className="ticker-group">
-              {tickerUnit.map((h, i) => (
-                <Link key={`a${i}`} href={h.href || '/'} className="text-[1.5rem] text-ink hover:text-brand">• {h.title}</Link>
-              ))}
-            </div>
-            <div className="ticker-group" aria-hidden="true">
-              {tickerUnit.map((h, i) => (
-                <Link key={`b${i}`} href={h.href || '/'} className="text-[1.5rem] text-ink hover:text-brand">• {h.title}</Link>
-              ))}
-            </div>
+            <div className="ticker-group">{renderItems('a')}</div>
+            <div className="ticker-group" aria-hidden="true">{renderItems('b')}</div>
           </div>
         </div>
       </div>

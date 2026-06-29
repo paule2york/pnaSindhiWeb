@@ -65,15 +65,15 @@ body {
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
-  animation: tickerScroll 40s linear infinite;
+  animation: tickerScroll 75s linear infinite;
   will-change: transform;
 }
 .ticker-group {
   display: inline-flex;
   align-items: center;
-  gap: 2.5rem;
+  gap: 2.25rem;
   padding-block: 0.5rem;
-  padding-right: 2.5rem;
+  padding-right: 2.25rem;
 }
 @keyframes tickerScroll {
   0% { transform: translateX(0); }
