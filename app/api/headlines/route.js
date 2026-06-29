@@ -5,7 +5,7 @@ export const maxDuration = 60;
 
 export async function GET() {
   try {
-    const news = await fetchFeedNews('top', 8);
+    const news = await fetchFeedNews('top', 15);
     const items = news.map((n) => ({
       title: n.title,
       href:

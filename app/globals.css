@@ -60,6 +60,7 @@ body {
 
 .ticker-wrap:hover .ticker-track { animation-play-state: paused; }
 .ticker-track {
+  direction: ltr;
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
@@ -71,7 +72,7 @@ body {
   align-items: center;
   gap: 2.5rem;
   padding-block: 0.5rem;
-  margin-left: 2.5rem;
+  padding-right: 2.5rem;
 }
 @keyframes tickerScroll {
   0% { transform: translateX(0); }
