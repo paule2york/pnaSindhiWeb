@@ -19,7 +19,7 @@ function articleHref(item) {
 
 export default async function Home({ searchParams }) {
   const cat = searchParams?.cat || 'top';
-  const news = await fetchFeedNews(cat, 16);
+  const news = await fetchFeedNews(cat, 40);
 
   if (!news.length) {
     return (
@@ -30,7 +30,7 @@ export default async function Home({ searchParams }) {
   const lead = news[0];
   const rightList = news.slice(1, 6);
   const leftList = news.slice(6, 11);
-  const grid = news.slice(11);
+  const grid = news.slice(0, 30);
   const showSections = cat === 'top';
 
   return (
@@ -48,7 +48,7 @@ export default async function Home({ searchParams }) {
                   </div>
                 ) : null}
                 <div className="flex-1">
-                  <span className="text-xs text-accent font-bold">{n.sourceName}</span>
+                  <span className="text-xs text-accent font-bold">ويب ڊيسڪ</span>
                   <h3 className="text-[1.25rem] font-bold leading-none text-ink line-clamp-3 group-hover:text-brand">{n.title}</h3>
                 </div>
               </Link>
@@ -67,7 +67,7 @@ export default async function Home({ searchParams }) {
               )}
               <div className="absolute inset-0 hero-overlay" />
               <div className="relative p-6 pt-56 text-white">
-                <span className="bg-accent text-white text-xs px-2 py-0.5 rounded-full font-bold">{lead.sourceName}</span>
+                <span className="bg-accent text-white text-xs px-2 py-0.5 rounded-full font-bold">ويب ڊيسڪ</span>
                 <h2 className="text-2xl md:text-3xl font-bold mt-3 leading-relaxed">{lead.title}</h2>
                 {lead.description ? <p className="text-white/85 text-base mt-2 line-clamp-2">{lead.description}</p> : null}
               </div>
@@ -89,7 +89,7 @@ export default async function Home({ searchParams }) {
                   </div>
                 ) : null}
                 <div className="flex-1">
-                  <span className="text-xs text-accent font-bold">{n.sourceName}</span>
+                  <span className="text-xs text-accent font-bold">ويب ڊيسڪ</span>
                   <h3 className="text-[1.25rem] font-bold leading-none text-ink line-clamp-3 group-hover:text-brand">{n.title}</h3>
                 </div>
               </Link>

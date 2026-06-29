@@ -18,9 +18,7 @@ export default function NewsCard({ item }) {
 
   const badgeClass = isLocal
     ? 'bg-amber-100 text-amber-700'
-    : isNative
-      ? 'bg-ink text-white'
-      : 'bg-brand-light text-brand-dark';
+    : 'bg-brand-light text-brand-dark';
 
   const inner = (
     <article className="card-hover bg-white rounded-2xl overflow-hidden border border-gray-100 h-full flex flex-col">
@@ -33,7 +31,7 @@ export default function NewsCard({ item }) {
       <div className="p-5 flex flex-col flex-1">
         <div className="flex items-center gap-2 mb-2">
           <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${badgeClass}`}>
-            {isLocal ? 'مقامي صحافي' : (item.sourceName || 'خبر')}
+            {isLocal ? 'مقامي صحافي' : 'ويب ڊيسڪ'}
           </span>
           {item.pubDate ? <span className="text-xs text-gray-400">{fmt(item.pubDate)}</span> : null}
         </div>
