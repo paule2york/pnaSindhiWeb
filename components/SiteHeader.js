@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { CATEGORIES, CITIES } from '../lib/data';
 
 function navClass(active) {
-  return `shrink-0 whitespace-nowrap text-[1.55rem] font-semibold py-3 border-b-2 transition-colors duration-200 flex items-center gap-1.5 ${active ? 'text-brand font-extrabold border-brand' : 'text-ink hover:text-brand border-transparent'}`;
+  return `shrink-0 whitespace-nowrap text-[1.55rem] font-semibold py-3 border-b-2 transition-colors duration-200 ${active ? 'text-brand font-extrabold border-brand' : 'text-ink hover:text-brand border-transparent'}`;
 }
 
 export default function SiteHeader() {
@@ -119,11 +119,11 @@ export default function SiteHeader() {
               </span>
             )}
           </Link>
-          <Link href="/" className={navClass(pathname === '/')}><span className="text-[1.15em]">🏠</span>پهريون صفحو</Link>
+          <Link href="/" className={navClass(pathname === '/')}>پهريون صفحو</Link>
           {CATEGORIES.map((c) => (
-            <Link key={c.slug} href={city ? `/${city}/${c.slug}` : `/?cat=${c.slug}`} className={navClass(isCat(c.slug))}><span className="text-[1.15em]">{c.icon}</span>{c.name}</Link>
+            <Link key={c.slug} href={city ? `/${city}/${c.slug}` : `/?cat=${c.slug}`} className={navClass(isCat(c.slug))}>{c.name}</Link>
           ))}
-          <Link href="/cms/login" className={navClass(false)}><span className="text-[1.15em]">✍️</span>صحافي</Link>
+          <Link href="/cms/login" className={navClass(false)}>صحافي پورٽل</Link>
         </div>
       </nav>
     </header>
