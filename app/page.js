@@ -40,17 +40,14 @@ export default async function Home({ searchParams }) {
           <h2 className="text-base font-bold text-accent border-b-2 border-accent pb-1 mb-3">فيچر</h2>
           <div className="divide-y divide-gray-200">
             {rightList.map((n) => (
-              <Link key={n.id} href={articleHref(n)} className="flex gap-3 py-3 group">
+              <Link key={n.id} href={articleHref(n)} className="flex items-center gap-3 py-3 group">
                 {n.image ? (
-                  <div className="w-20 h-16 shrink-0 rounded-lg overflow-hidden bg-gray-100">
+                  <div className="w-24 h-16 shrink-0 rounded-lg overflow-hidden bg-gray-100">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={n.image} alt="" className="w-full h-full object-cover" loading="lazy" />
                   </div>
                 ) : null}
-                <div className="flex-1">
-                  <span className="text-xs text-accent font-bold">ويب ڊيسڪ</span>
-                  <h3 className="text-[1.25rem] font-bold leading-none text-ink line-clamp-3 group-hover:text-brand">{n.title}</h3>
-                </div>
+                <h3 className="flex-1 text-[1.2rem] font-bold leading-snug text-ink line-clamp-2 group-hover:text-brand">{n.title}</h3>
               </Link>
             ))}
           </div>
@@ -68,7 +65,7 @@ export default async function Home({ searchParams }) {
               <div className="absolute inset-0 hero-overlay" />
               <div className="relative p-6 pt-56 text-white">
                 <span className="bg-accent text-white text-xs px-2 py-0.5 rounded-full font-bold">ويب ڊيسڪ</span>
-                <h2 className="text-2xl md:text-3xl font-bold mt-3 leading-relaxed">{lead.title}</h2>
+                <h2 className="text-2xl md:text-3xl font-bold mt-3 leading-relaxed line-clamp-3">{lead.title}</h2>
                 {lead.description ? <p className="text-white/85 text-base mt-2 line-clamp-2">{lead.description}</p> : null}
               </div>
             </Link>
@@ -81,17 +78,14 @@ export default async function Home({ searchParams }) {
           </h2>
           <div className="divide-y divide-gray-200">
             {leftList.map((n) => (
-              <Link key={n.id} href={articleHref(n)} className="flex gap-3 py-3 group">
+              <Link key={n.id} href={articleHref(n)} className="flex items-center gap-3 py-3 group">
                 {n.image ? (
-                  <div className="w-20 h-16 shrink-0 rounded-lg overflow-hidden bg-gray-100">
+                  <div className="w-24 h-16 shrink-0 rounded-lg overflow-hidden bg-gray-100">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={n.image} alt="" className="w-full h-full object-cover" loading="lazy" />
                   </div>
                 ) : null}
-                <div className="flex-1">
-                  <span className="text-xs text-accent font-bold">ويب ڊيسڪ</span>
-                  <h3 className="text-[1.25rem] font-bold leading-none text-ink line-clamp-3 group-hover:text-brand">{n.title}</h3>
-                </div>
+                <h3 className="flex-1 text-[1.2rem] font-bold leading-snug text-ink line-clamp-2 group-hover:text-brand">{n.title}</h3>
               </Link>
             ))}
           </div>

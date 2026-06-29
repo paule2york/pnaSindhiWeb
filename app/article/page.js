@@ -60,16 +60,14 @@ function ShareRow({ url, title }) {
 
 function SidebarItem({ n }) {
   return (
-    <Link href={articleHref(n)} className="flex gap-3 py-3 group">
+    <Link href={articleHref(n)} className="flex items-center gap-3 py-3 group">
       {n.image ? (
-        <div className="w-20 h-16 shrink-0 rounded-lg overflow-hidden bg-gray-100">
+        <div className="w-24 h-16 shrink-0 rounded-lg overflow-hidden bg-gray-100">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={n.image} alt="" className="w-full h-full object-cover" loading="lazy" />
         </div>
       ) : null}
-      <div className="flex-1">
-        <h3 className="text-base font-bold leading-snug text-ink line-clamp-3 group-hover:text-brand">{n.title}</h3>
-      </div>
+      <h3 className="flex-1 text-[1.15rem] font-bold leading-snug text-ink line-clamp-2 group-hover:text-brand">{n.title}</h3>
     </Link>
   );
 }
