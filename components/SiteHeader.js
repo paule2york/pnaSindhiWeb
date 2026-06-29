@@ -70,9 +70,9 @@ export default function SiteHeader() {
         <Link href={h.href || '/'} className="text-[1.5rem] text-ink hover:text-brand">{h.title}</Link>
         {logoOk ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src="/logo.png" alt="" aria-hidden="true" className="h-6 w-auto opacity-25 grayscale shrink-0" />
+          <img src="/logo.png" alt="" aria-hidden="true" className="h-6 w-auto shrink-0" />
         ) : (
-          <span aria-hidden="true" className="text-brand/40 text-lg">◆</span>
+          <span aria-hidden="true" className="text-brand text-lg">◆</span>
         )}
       </span>
     ));
