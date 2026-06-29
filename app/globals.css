@@ -62,10 +62,16 @@ body {
 .ticker-track {
   display: inline-flex;
   align-items: center;
-  gap: 2.5rem;
   white-space: nowrap;
-  padding: 0.5rem 1rem;
-  animation: tickerScroll 70s linear infinite;
+  animation: tickerScroll 80s linear infinite;
+  will-change: transform;
+}
+.ticker-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 2.5rem;
+  padding-block: 0.5rem;
+  margin-left: 2.5rem;
 }
 @keyframes tickerScroll {
   0% { transform: translateX(0); }

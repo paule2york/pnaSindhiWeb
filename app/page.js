@@ -37,7 +37,7 @@ export default async function Home({ searchParams }) {
     <div className="pb-4 px-4 pt-5">
       <section className="grid lg:grid-cols-4 gap-5">
         <div className="lg:col-span-1 order-2 lg:order-none">
-          <h2 className="text-base font-bold text-accent border-b-2 border-accent pb-1 mb-3">فيچر</h2>
+          <h2 className="text-2xl font-bold text-accent border-b-2 border-accent pb-1 mb-3">فيچر</h2>
           <div className="divide-y divide-gray-200">
             {rightList.map((n) => (
               <Link key={n.id} href={articleHref(n)} className="flex items-center gap-3 py-3 group">
@@ -73,7 +73,7 @@ export default async function Home({ searchParams }) {
         </div>
 
         <div className="lg:col-span-1 order-3 lg:order-none">
-          <h2 className="text-base font-bold text-white bg-accent inline-flex items-center gap-1.5 px-2 py-1 rounded mb-3">
+          <h2 className="text-xl font-bold text-white bg-accent inline-flex items-center gap-1.5 px-3 py-1 rounded mb-3">
             <span className="w-2 h-2 rounded-full bg-white animate-pulse" />لايي
           </h2>
           <div className="divide-y divide-gray-200">

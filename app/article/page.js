@@ -148,7 +148,7 @@ export default async function ArticlePage({ searchParams }) {
         </article>
 
         <aside className="lg:col-span-1">
-          <h2 className="text-base font-bold text-accent border-b-2 border-accent pb-1 mb-3">مقبول ترين</h2>
+          <h2 className="text-2xl font-bold text-accent border-b-2 border-accent pb-1 mb-3">مقبول ترين</h2>
           <div className="divide-y divide-gray-200">
             {popular.map((n) => <SidebarItem key={n.id} n={n} />)}
           </div>

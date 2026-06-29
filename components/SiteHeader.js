@@ -62,10 +62,9 @@ export default function SiteHeader() {
   const isCat = (slug) => pathname?.endsWith(`/${slug}`) || pathname?.includes(`cat=${slug}`);
   const tickerBase = heads.length ? heads : [];
   let tickerUnit = tickerBase;
-  while (tickerUnit.length > 0 && tickerUnit.length < 16) {
+  while (tickerUnit.length > 0 && tickerUnit.length < 20) {
     tickerUnit = tickerUnit.concat(tickerBase);
   }
-  const tickerItems = tickerUnit.length ? tickerUnit.concat(tickerUnit) : [];
 
   return (
     <header className={`bg-white sticky top-0 z-40 border-b border-gray-200 transition-shadow duration-300 ${scrolled ? 'shadow-md' : ''}`}>
@@ -93,16 +92,23 @@ export default function SiteHeader() {
       </div>
 
       <div className={`bg-gray-50 border-gray-200 flex items-stretch overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0 border-0' : 'max-h-16 opacity-100 border-y'}`}>
-        <span className="bg-accent text-white text-base font-bold px-4 flex items-center shrink-0">هيڊ لائنز</span>
+        <span className="bg-accent text-white text-base font-bold px-4 flex items-center shrink-0">هيڈ لائنز</span>
         <div className="ticker-wrap flex-1 overflow-hidden">
-          {tickerItems.length ? (
+          {tickerUnit.length ? (
             <div className="ticker-track">
-              {tickerItems.map((h, i) => (
-                <Link key={i} href={h.href || '/'} className="text-[1.5rem] text-ink hover:text-brand">• {h.title}</Link>
-              ))}
+              <div className="ticker-group">
+                {tickerUnit.map((h, i) => (
+                  <Link key={`a${i}`} href={h.href || '/'} className="text-[1.5rem] text-ink hover:text-brand">• {h.title}</Link>
+                ))}
+              </div>
+              <div className="ticker-group" aria-hidden="true">
+                {tickerUnit.map((h, i) => (
+                  <Link key={`b${i}`} href={h.href || '/'} className="text-[1.5rem] text-ink hover:text-brand">• {h.title}</Link>
+                ))}
+              </div>
             </div>
           ) : (
-            <div className="text-[1.5rem] text-ink px-4 py-2">پنا سنڌي — سنڌ ڍ پاڈستان جون تازيون خبرون سنڌيءَ ۚ</div>
+            <div className="text-[1.5rem] text-ink px-4 py-2">پنا سنڌي — سنڌ ڈ پاڈستان جون تازيون خبرون سنڌيءَ ۚ</div>
           )}
         </div>
       </div>
