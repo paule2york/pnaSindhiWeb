@@ -18,7 +18,7 @@ html { direction: rtl; }
 
 body {
   font-family: var(--font-sindhi);
-  background: #f5f6f7;
+  background: #ffffff;
   color: #1a1a1a;
   font-size: 1.0625rem;
   transition: background-color 0.3s ease, color 0.3s ease;

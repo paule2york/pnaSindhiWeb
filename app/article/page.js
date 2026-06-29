@@ -115,14 +115,14 @@ export default async function ArticlePage({ searchParams }) {
             <Link href="/" className="text-sm text-brand font-bold">→ واپس</Link>
           </div>
 
-          <h1 className="text-[2.5rem] font-medium leading-relaxed text-ink text-center">{titleSd}</h1>
+          <h1 className="text-[2.5rem] font-medium leading-relaxed text-ink text-right">{titleSd}</h1>
 
           <div className="flex items-center justify-between border-y border-gray-200 py-3 mt-5 mb-7">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-brand-light text-brand-dark flex items-center justify-center font-bold text-lg">پ</div>
+              <div className="w-12 h-12 rounded-full bg-brand-light text-brand-dark flex items-center justify-center font-bold text-2xl">پ</div>
               <div className="leading-tight">
-                <div className="text-sm font-bold text-ink">ويب ڊيسڪ</div>
-                {relTime ? <div className="text-xs text-gray-500">{relTime}</div> : null}
+                <div className="text-xl font-bold text-ink">ويب ڊيسڪ</div>
+                {relTime ? <div className="text-base text-gray-500">{relTime}</div> : null}
               </div>
             </div>
             <ShareRow url={pageUrl} title={titleSd} />
