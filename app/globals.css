@@ -58,13 +58,14 @@ body {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+.ticker-wrap { direction: ltr; }
 .ticker-wrap:hover .ticker-track { animation-play-state: paused; }
 .ticker-track {
   direction: ltr;
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
-  animation: tickerScroll 80s linear infinite;
+  animation: tickerScroll 40s linear infinite;
   will-change: transform;
 }
 .ticker-group {

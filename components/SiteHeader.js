@@ -4,6 +4,11 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { CATEGORIES, CITIES } from '../lib/data';
 
+const DEFAULT_HEADS = [
+  { title: 'پنا سنڌي — سنڌ ۽ پاڪستان جون تازيون خبرون', href: '/' },
+  { title: 'تازيون خبرون لاء وزيٹ ڪريو', href: '/' },
+];
+
 function navClass(active) {
   return `shrink-0 whitespace-nowrap text-[1.55rem] font-semibold py-3 border-b-2 transition-colors duration-200 ${active ? 'text-brand font-extrabold border-brand' : 'text-ink hover:text-brand border-transparent'}`;
 }
@@ -53,9 +58,9 @@ export default function SiteHeader() {
   }
 
   const isCat = (slug) => pathname?.endsWith(`/${slug}`) || pathname?.includes(`cat=${slug}`);
-  const tickerBase = heads.length ? heads : [];
+  const tickerBase = heads.length ? heads : DEFAULT_HEADS;
   let tickerUnit = tickerBase;
-  while (tickerUnit.length > 0 && tickerUnit.length < 20) {
+  while (tickerUnit.length > 0 && tickerUnit.length < 24) {
     tickerUnit = tickerUnit.concat(tickerBase);
   }
 
@@ -87,22 +92,18 @@ export default function SiteHeader() {
       <div className={`bg-gray-50 border-gray-200 flex items-stretch overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0 border-0' : 'max-h-16 opacity-100 border-y'}`}>
         <span className="bg-accent text-white text-base font-bold px-4 flex items-center shrink-0">هيڊ لائنز</span>
         <div className="ticker-wrap flex-1 overflow-hidden">
-          {tickerUnit.length ? (
-            <div className="ticker-track">
-              <div className="ticker-group">
-                {tickerUnit.map((h, i) => (
-                  <Link key={`a${i}`} href={h.href || '/'} className="text-[1.5rem] text-ink hover:text-brand">• {h.title}</Link>
-                ))}
-              </div>
-              <div className="ticker-group" aria-hidden="true">
-                {tickerUnit.map((h, i) => (
-                  <Link key={`b${i}`} href={h.href || '/'} className="text-[1.5rem] text-ink hover:text-brand">• {h.title}</Link>
-                ))}
-              </div>
+          <div className="ticker-track">
+            <div className="ticker-group">
+              {tickerUnit.map((h, i) => (
+                <Link key={`a${i}`} href={h.href || '/'} className="text-[1.5rem] text-ink hover:text-brand">• {h.title}</Link>
+              ))}
             </div>
-          ) : (
-            <div className="text-[1.5rem] text-ink px-4 py-2">پنا سنڌي — سنڌ ۽ پاڪستان جون تازيون خبرون سنڌيءَ ۾</div>
-          )}
+            <div className="ticker-group" aria-hidden="true">
+              {tickerUnit.map((h, i) => (
+                <Link key={`b${i}`} href={h.href || '/'} className="text-[1.5rem] text-ink hover:text-brand">• {h.title}</Link>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
