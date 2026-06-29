@@ -12,6 +12,7 @@
 
 :root {
   --font-sindhi: 'MB Khursheed', var(--font-lateef), 'Noto Naskh Arabic', 'MB Lateefi', serif;
+  --font-legacy: var(--font-lateef), 'Noto Naskh Arabic', 'MB Lateefi', serif;
 }
 
 html { direction: rtl; }
@@ -23,6 +24,8 @@ body {
   font-size: 1.0625rem;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+.font-legacy { font-family: var(--font-legacy) !important; }
 
 .brand-gradient {
   background: linear-gradient(120deg, #8f0a20 0%, #c8102e 55%, #e11d2a 100%);
@@ -65,7 +68,7 @@ body {
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
-  animation: tickerScroll 95s linear infinite;
+  animation: tickerScroll 140s linear infinite;
   will-change: transform;
 }
 .ticker-group {
@@ -76,8 +79,8 @@ body {
   padding-right: 2.25rem;
 }
 @keyframes tickerScroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
 }
 
 /* ---------- Dark mode (neutral, no green) ---------- */
@@ -97,6 +100,7 @@ html.dark .text-ink { color: #e7e7e7 !important; }
 html.dark .text-gray-400 { color: #8a8a8a !important; }
 html.dark .text-gray-500,
 html.dark .text-gray-600 { color: #a8a8a8 !important; }
+html.dark .text-gray-800 { color: #d8d8d8 !important; }
 html.dark .text-brand-dark { color: #f1879a !important; }
 html.dark .card-hover:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.5); }
 

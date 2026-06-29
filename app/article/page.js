@@ -27,7 +27,7 @@ function timeAgoSindhi(dateStr) {
   const day = Math.floor(hr / 24);
   const month = Math.floor(day / 30);
   const year = Math.floor(day / 365);
-  const ago = 'اڳ';
+  const ago = 'اڍ';
   if (sec < 60) return 'هاڻي';
   if (min < 60) return min + ' منٽ ' + ago;
   if (hr < 24) return hr + ' ڪلاڪ ' + ago;
@@ -88,8 +88,8 @@ export default async function ArticlePage({ searchParams }) {
   if (!data || !data.paragraphs || data.paragraphs.length === 0) {
     return (
       <div className="max-w-3xl mx-auto px-6 py-16 text-center">
-        <p className="text-gray-600 mb-4">هيءَ خبر هتي دڈائي نه ٹي سگهي.</p>
-        <div className="mt-2"><Link href="/" className="text-sm text-brand font-bold">→ واپس مُك صفحي تي</Link></div>
+        <p className="text-gray-600 mb-4">هيءَ خبر هتي ڍائي نه ٽي سگهي.</p>
+        <div className="mt-2"><Link href="/" className="text-sm text-brand font-bold">→ واپس مُڪ صفحي تي</Link></div>
       </div>
     );
   }
@@ -133,7 +133,7 @@ export default async function ArticlePage({ searchParams }) {
             </figure>
           ) : null}
 
-          <div className="space-y-4 text-[2rem] leading-none text-gray-800">
+          <div className="font-legacy space-y-4 text-[2rem] leading-relaxed text-gray-800">
             {paras.map((p, i) => <p key={i}>{p}</p>)}
           </div>
 
