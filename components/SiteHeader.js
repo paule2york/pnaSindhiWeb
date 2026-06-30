@@ -1,8 +1,9 @@
 'use client';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
 import { CATEGORIES, CITIES } from '../lib/data';
+import WeatherWidget from './WeatherWidget';
 
 const DEFAULT_HEADS = [
   { title: 'پنا سنڌي — سنڌ ۽ پاڪستان جون تازيون خبرون', href: '/' },
@@ -19,6 +20,7 @@ function navClass(active) {
 
 export default function SiteHeader() {
   const pathname = usePathname();
+  const router = useRouter();
   const seg = pathname?.split('/')[1] || '';
   const city = CITIES.some((c) => c.slug === seg) ? seg : '';
   const [date, setDate] = useState('');
@@ -27,6 +29,8 @@ export default function SiteHeader() {
   const [dark, setDark] = useState(false);
   const [logoOk, setLogoOk] = useState(true);
   const [scrolled, setScrolled] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
     const today = new Date();
@@ -74,6 +78,14 @@ export default function SiteHeader() {
     try { localStorage.setItem('theme', next ? 'dark' : 'light'); } catch (e) {}
   }
 
+  function submitSearch(e) {
+    e.preventDefault();
+    const v = query.trim();
+    if (!v) return;
+    setSearchOpen(false);
+    router.push(`/search?q=${encodeURIComponent(v)}`);
+  }
+
   const isCat = (slug) => pathname?.endsWith(`/${slug}`) || pathname?.includes(`cat=${slug}`);
   const tickerBase = heads.length ? heads : DEFAULT_HEADS;
   let tickerUnit = tickerBase;
@@ -101,28 +113,50 @@ export default function SiteHeader() {
 
   return (
     <header className={`bg-white sticky top-0 z-40 border-b border-gray-200 transition-shadow duration-300 ${scrolled ? 'shadow-md' : ''}`}>
-      <div className={`overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0' : 'max-h-48 opacity-100'}`}>
+      <div className={`overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0' : 'max-h-60 opacity-100'}`}>
         <div className="max-w-6xl mx-auto px-4 py-5 flex items-center justify-between gap-3">
-          <Link href="/" className="shrink-0 flex items-center">
-            {logoOk ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src="/logo.png" alt="پنا سنڌي" onError={() => setLogoOk(false)} className="h-24 w-auto" />
-            ) : (
-              <span className="flex flex-col items-center leading-none">
-                <span className="text-4xl font-extrabold tracking-tight text-ink">PNA</span>
-                <span className="bg-accent text-white text-2xl font-bold px-3 rounded mt-1">سنڌي</span>
-              </span>
-            )}
-          </Link>
-          <div className="flex items-center gap-3 sm:gap-5">
-            <div className="text-right leading-tight hidden sm:block">
+          <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+            <Link href="/" className="shrink-0 flex items-center">
+              {logoOk ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src="/logo.png" alt="پنا سنڌي" onError={() => setLogoOk(false)} className="h-24 w-auto" />
+              ) : (
+                <span className="flex flex-col items-center leading-none">
+                  <span className="text-4xl font-extrabold tracking-tight text-ink">PNA</span>
+                  <span className="bg-accent text-white text-2xl font-bold px-3 rounded mt-1">سنڌي</span>
+                </span>
+              )}
+            </Link>
+            <div className="hidden sm:block"><WeatherWidget /></div>
+          </div>
+          <div className="flex items-center gap-2 sm:gap-4">
+            <div className="text-right leading-tight hidden md:block">
               <div style={DATE_FONT} className="text-ink text-sm font-semibold tracking-wide">{date}</div>
               {hijri ? <div style={HIJRI_FONT} className="text-accent text-[1.05rem] font-bold mt-1">{hijri}</div> : null}
             </div>
+            <button onClick={() => setSearchOpen((o) => !o)} aria-label="search" className="text-ink hover:text-brand transition shrink-0">
+              <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.6-3.6" /></svg>
+            </button>
             <Link href="/cms/login" className="inline-flex items-center gap-1.5 bg-accent text-white text-sm md:text-base font-bold px-4 py-2 rounded-full hover:bg-brand-dark transition shrink-0">صحافي پورٽل</Link>
             <button onClick={toggleTheme} aria-label="theme" className="text-2xl leading-none hover:opacity-70 shrink-0">{dark ? '☀️' : '🌙'}</button>
           </div>
         </div>
+        {searchOpen ? (
+          <div className="max-w-6xl mx-auto px-4 pb-4">
+            <form onSubmit={submitSearch} className="relative">
+              <input
+                autoFocus
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="خبر ڊوليو…"
+                className="w-full rounded-xl border border-gray-300 focus:border-brand bg-white text-ink placeholder-gray-400 text-base pr-12 pl-4 py-3 outline-none transition"
+              />
+              <button type="submit" aria-label="search" className="absolute right-3 top-1/2 -translate-y-1/2 text-brand">
+                <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.6-3.6" /></svg>
+              </button>
+            </form>
+          </div>
+        ) : null}
       </div>
 
       <div className={`bg-gray-50 border-gray-200 flex items-stretch overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0 border-0' : 'max-h-16 opacity-100 border-y'}`}>
