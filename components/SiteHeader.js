@@ -9,6 +9,9 @@ const DEFAULT_HEADS = [
   { title: 'تازيون خبرون لاء وزيٹ ڪريو', href: '/' },
 ];
 
+const HIJRI_MONTHS = ['محرم', 'صفر', 'ربيع الاول', 'ربيع الثاني', 'جمادى الاول', 'جمادى الثاني', 'رجب', 'شعبان', 'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'];
+const DATE_FONT = { fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' };
+
 function navClass(active) {
   return `shrink-0 whitespace-nowrap text-[0.95rem] sm:text-base md:text-xl lg:text-[1.5rem] py-3 border-b-2 transition-colors duration-200 ${active ? 'text-brand-dark font-extrabold border-brand' : 'text-brand font-bold hover:text-brand-dark border-transparent'}`;
 }
@@ -18,13 +21,22 @@ export default function SiteHeader() {
   const seg = pathname?.split('/')[1] || '';
   const city = CITIES.some((c) => c.slug === seg) ? seg : '';
   const [date, setDate] = useState('');
+  const [hijri, setHijri] = useState('');
   const [heads, setHeads] = useState([]);
   const [dark, setDark] = useState(false);
   const [logoOk, setLogoOk] = useState(true);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    setDate(new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }));
+    const today = new Date();
+    setDate(today.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }));
+    try {
+      const pak = new Date(today.getTime() - 86400000);
+      const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', { day: 'numeric', month: 'numeric', year: 'numeric' }).formatToParts(pak);
+      const get = (t) => (parts.find((p) => p.type === t) || {}).value;
+      const m = Number(get('month'));
+      setHijri(`${get('day')} ${HIJRI_MONTHS[m - 1] || ''} ${get('year')}هـ`);
+    } catch (e) {}
     setDark(document.documentElement.classList.contains('dark'));
     fetch('/api/headlines')
       .then((r) => r.json())
@@ -98,9 +110,9 @@ export default function SiteHeader() {
             )}
           </Link>
           <div className="flex items-center gap-3 sm:gap-5">
-            <div className="text-left text-accent text-xs leading-5 hidden sm:block">
-              <div>{date}</div>
-              <Link href="/" className="font-bold hover:underline">لايي خبرون</Link>
+            <div className="text-right leading-tight hidden sm:block">
+              <div style={DATE_FONT} className="text-ink text-sm font-semibold tracking-wide">{date}</div>
+              {hijri ? <div className="text-accent text-[0.95rem] font-bold mt-0.5">{hijri}</div> : null}
             </div>
             <Link href="/cms/login" className="inline-flex items-center gap-1.5 bg-accent text-white text-sm md:text-base font-bold px-4 py-2 rounded-full hover:bg-brand-dark transition shrink-0">صحافي پورٽل</Link>
             <button onClick={toggleTheme} aria-label="theme" className="text-2xl leading-none hover:opacity-70 shrink-0">{dark ? '☀️' : '🌙'}</button>
