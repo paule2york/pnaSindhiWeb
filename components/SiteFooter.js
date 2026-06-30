@@ -2,12 +2,12 @@ import Link from 'next/link';
 
 const LINKS = [
   { label: 'پهريون صفحو', href: '/' },
-  { label: 'اسان بابت', href: '#' },
-  { label: 'اشتهار', href: '#' },
-  { label: 'رازداري پاليسي', href: '#' },
-  { label: 'استعمال جون شرطون', href: '#' },
-  { label: 'رابطو', href: '#' },
-  { label: 'صحافي پورٽل', href: '/cms/login' },
+  { label: 'اسان بابت', href: '/about' },
+  { label: 'اشتهار', href: '/advertise' },
+  { label: 'رازداري پاليسي', href: '/privacy' },
+  { label: 'استعمال جون شرطون', href: '/terms' },
+  { label: 'رابطو', href: '/contact' },
+  { label: 'صحافي پورٹل', href: '/cms/login' },
 ];
 
 const SOCIAL = [
