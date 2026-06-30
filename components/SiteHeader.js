@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { CATEGORIES, CITIES } from '../lib/data';
 
 const DEFAULT_HEADS = [
@@ -10,7 +10,7 @@ const DEFAULT_HEADS = [
 ];
 
 function navClass(active) {
-  return `shrink-0 whitespace-nowrap text-[0.95rem] sm:text-base md:text-xl lg:text-[1.5rem] font-semibold py-3 border-b-2 transition-colors duration-200 ${active ? 'text-brand font-extrabold border-brand' : 'text-ink hover:text-brand border-transparent'}`;
+  return `shrink-0 whitespace-nowrap text-[0.95rem] sm:text-base md:text-xl lg:text-[1.5rem] py-3 border-b-2 transition-colors duration-200 ${active ? 'text-brand-dark font-extrabold border-brand' : 'text-brand font-semibold hover:text-brand-dark border-transparent'}`;
 }
 
 export default function SiteHeader() {
@@ -64,6 +64,12 @@ export default function SiteHeader() {
     tickerUnit = tickerUnit.concat(tickerBase);
   }
 
+  const navItems = [
+    { key: 'home', href: '/', label: 'پهريون صفحو', active: pathname === '/' },
+    ...CATEGORIES.map((c) => ({ key: c.slug, href: city ? `/${city}/${c.slug}` : `/?cat=${c.slug}`, label: c.name, active: isCat(c.slug) })),
+    { key: 'portal', href: '/cms/login', label: 'صحافي پورٽل', active: false },
+  ];
+
   const renderItems = (prefix) =>
     tickerUnit.map((h, i) => (
       <span key={`${prefix}${i}`} className="inline-flex items-center">
@@ -113,8 +119,8 @@ export default function SiteHeader() {
       </div>
 
       <nav className="max-w-6xl mx-auto px-4 border-t border-gray-100">
-        <div className="flex flex-nowrap items-center justify-center gap-x-2 sm:gap-x-3 md:gap-x-5 py-1 overflow-x-auto no-scrollbar">
-          <Link href="/" aria-label="home" className={`shrink-0 flex items-center overflow-hidden transition-all duration-300 ${scrolled ? 'w-auto opacity-100 ml-1' : 'w-0 opacity-0'}`}>
+        <div className="flex flex-nowrap items-center justify-center gap-x-2 sm:gap-x-3 md:gap-x-4 py-1 overflow-x-auto no-scrollbar">
+          <Link href="/" aria-label="home" className={`shrink-0 flex items-center overflow-hidden transition-all duration-300 ${scrolled ? 'w-auto opacity-100 ml-1 mr-1' : 'w-0 opacity-0'}`}>
             {logoOk ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src="/logo.png" alt="پنا سنڌي" onError={() => setLogoOk(false)} className="h-9 w-auto" />
@@ -125,11 +131,12 @@ export default function SiteHeader() {
               </span>
             )}
           </Link>
-          <Link href="/" className={navClass(pathname === '/')}>پهريون صفحو</Link>
-          {CATEGORIES.map((c) => (
-            <Link key={c.slug} href={city ? `/${city}/${c.slug}` : `/?cat=${c.slug}`} className={navClass(isCat(c.slug))}>{c.name}</Link>
+          {navItems.map((it, idx) => (
+            <Fragment key={it.key}>
+              {idx > 0 ? <span aria-hidden="true" className="h-5 w-px bg-gray-300 shrink-0 self-center" /> : null}
+              <Link href={it.href} className={navClass(it.active)}>{it.label}</Link>
+            </Fragment>
           ))}
-          <Link href="/cms/login" className={navClass(false)}>صحافي پورٽل</Link>
         </div>
       </nav>
     </header>
