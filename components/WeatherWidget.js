@@ -41,7 +41,8 @@ export default function WeatherWidget() {
   useEffect(() => {
     const c = CITIES.find((x) => x.slug === slug) || CITIES[0];
     let active = true;
-    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}&current=temperature_2m,weather_code&timezone=Asia%2FKarachi`)
+    const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + c.lat + '&longitude=' + c.lon + '&current=temperature_2m,weather_code&timezone=Asia%2FKarachi';
+    fetch(url)
       .then((r) => r.json())
       .then((d) => {
         if (!active || !d || !d.current) return;
