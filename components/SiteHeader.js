@@ -10,7 +10,7 @@ const DEFAULT_HEADS = [
 ];
 
 function navClass(active) {
-  return `shrink-0 whitespace-nowrap text-[1.55rem] font-semibold py-3 border-b-2 transition-colors duration-200 ${active ? 'text-brand font-extrabold border-brand' : 'text-ink hover:text-brand border-transparent'}`;
+  return `shrink-0 whitespace-nowrap text-[0.95rem] sm:text-base md:text-xl lg:text-[1.5rem] font-semibold py-3 border-b-2 transition-colors duration-200 ${active ? 'text-brand font-extrabold border-brand' : 'text-ink hover:text-brand border-transparent'}`;
 }
 
 export default function SiteHeader() {
@@ -66,13 +66,13 @@ export default function SiteHeader() {
 
   const renderItems = (prefix) =>
     tickerUnit.map((h, i) => (
-      <span key={`${prefix}${i}`} className="inline-flex items-center gap-3">
+      <span key={`${prefix}${i}`} className="inline-flex items-center">
         <Link href={h.href || '/'} className="text-[1.5rem] text-ink hover:text-brand">{h.title}</Link>
         {logoOk ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src="/logo.png" alt="" aria-hidden="true" className="h-6 w-auto shrink-0" />
+          <img src="/logo.png" alt="" aria-hidden="true" className="h-6 w-auto shrink-0 mx-5" />
         ) : (
-          <span aria-hidden="true" className="text-brand text-lg">◆</span>
+          <span aria-hidden="true" className="text-brand text-lg mx-5">◆</span>
         )}
       </span>
     ));
@@ -103,7 +103,7 @@ export default function SiteHeader() {
       </div>
 
       <div className={`bg-gray-50 border-gray-200 flex items-stretch overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0 border-0' : 'max-h-16 opacity-100 border-y'}`}>
-        <span className="bg-accent text-white text-base font-bold px-4 flex items-center shrink-0">هيڊ لائنز</span>
+        <span className="bg-accent text-white text-base font-bold px-4 flex items-center gap-2 shrink-0"><span className="live-dot-white" /><span>هيڊ لائنز</span></span>
         <div className="ticker-wrap flex-1 overflow-hidden">
           <div className="ticker-track">
             <div className="ticker-group">{renderItems('a')}</div>
@@ -113,7 +113,7 @@ export default function SiteHeader() {
       </div>
 
       <nav className="max-w-6xl mx-auto px-4 border-t border-gray-100">
-        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 py-1">
+        <div className="flex flex-nowrap items-center justify-center gap-x-2 sm:gap-x-3 md:gap-x-5 py-1 overflow-x-auto no-scrollbar">
           <Link href="/" aria-label="home" className={`shrink-0 flex items-center overflow-hidden transition-all duration-300 ${scrolled ? 'w-auto opacity-100 ml-1' : 'w-0 opacity-0'}`}>
             {logoOk ? (
               // eslint-disable-next-line @next/next/no-img-element

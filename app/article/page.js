@@ -133,7 +133,7 @@ export default async function ArticlePage({ searchParams }) {
             </figure>
           ) : null}
 
-          <div className="font-legacy space-y-4 text-[2rem] leading-relaxed text-gray-800">
+          <div className="space-y-4 text-[2rem] leading-relaxed text-gray-800">
             {paras.map((p, i) => <p key={i}>{p}</p>)}
           </div>
 
