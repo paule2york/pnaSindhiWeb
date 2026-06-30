@@ -37,6 +37,10 @@ export default function SiteHeader() {
       const m = Number(get('month'));
       setHijri(`${get('day')} ${HIJRI_MONTHS[m - 1] || ''} ${get('year')}هـ`);
     } catch (e) {}
+    fetch('/api/hijri')
+      .then((r) => r.json())
+      .then((d) => { if (d && d.hijri) setHijri(d.hijri); })
+      .catch(() => {});
     setDark(document.documentElement.classList.contains('dark'));
     fetch('/api/headlines')
       .then((r) => r.json())
