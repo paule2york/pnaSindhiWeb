@@ -115,21 +115,19 @@ export default function SiteHeader() {
     <header className={`bg-white sticky top-0 z-40 border-b border-gray-200 transition-shadow duration-300 ${scrolled ? 'shadow-md' : ''}`}>
       <div className={`overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0' : 'max-h-60 opacity-100'}`}>
         <div className="max-w-6xl mx-auto px-4 py-5 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-3 sm:gap-4 shrink-0">
-            <Link href="/" className="shrink-0 flex items-center">
-              {logoOk ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src="/logo.png" alt="پنا سنڌي" onError={() => setLogoOk(false)} className="h-24 w-auto" />
-              ) : (
-                <span className="flex flex-col items-center leading-none">
-                  <span className="text-4xl font-extrabold tracking-tight text-ink">PNA</span>
-                  <span className="bg-accent text-white text-2xl font-bold px-3 rounded mt-1">سنڌي</span>
-                </span>
-              )}
-            </Link>
-            <div className="hidden sm:block"><WeatherWidget /></div>
-          </div>
+          <Link href="/" className="shrink-0 flex items-center">
+            {logoOk ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src="/logo.png" alt="پنا سنڌي" onError={() => setLogoOk(false)} className="h-24 w-auto" />
+            ) : (
+              <span className="flex flex-col items-center leading-none">
+                <span className="text-4xl font-extrabold tracking-tight text-ink">PNA</span>
+                <span className="bg-accent text-white text-2xl font-bold px-3 rounded mt-1">سنڌي</span>
+              </span>
+            )}
+          </Link>
           <div className="flex items-center gap-2 sm:gap-4">
+            <div className="hidden sm:block"><WeatherWidget /></div>
             <div className="text-right leading-tight hidden md:block">
               <div style={DATE_FONT} className="text-ink text-sm font-semibold tracking-wide">{date}</div>
               {hijri ? <div style={HIJRI_FONT} className="text-accent text-[1.05rem] font-bold mt-1">{hijri}</div> : null}

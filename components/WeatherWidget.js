@@ -3,16 +3,20 @@ import { useEffect, useState } from 'react';
 
 // Sindh cities with coordinates for the free Open-Meteo API (no key needed).
 const CITIES = [
-  { slug: 'karachi', name: 'ڊراچي', lat: 24.86, lon: 67.01 },
+  { slug: 'karachi', name: 'ڪراچي', lat: 24.86, lon: 67.01 },
   { slug: 'hyderabad', name: 'حيدرآباد', lat: 25.39, lon: 68.37 },
-  { slug: 'sukkur', name: 'سڪر', lat: 27.70, lon: 68.86 },
+  { slug: 'dadu', name: 'دادو', lat: 26.73, lon: 67.78 },
+  { slug: 'mehar', name: 'ميهڑ', lat: 27.18, lon: 67.82 },
+  { slug: 'sukkur', name: 'سکر', lat: 27.70, lon: 68.86 },
   { slug: 'larkana', name: 'لاڑڪاڻو', lat: 27.56, lon: 68.21 },
+  { slug: 'nawabshah', name: 'نوابشاهه', lat: 26.25, lon: 68.41 },
   { slug: 'mirpurkhas', name: 'ميرپورخاص', lat: 25.53, lon: 69.01 },
-  { slug: 'nawabshah', name: 'نوابشاھ', lat: 26.25, lon: 68.41 },
+  { slug: 'khairpur', name: 'خيرپور', lat: 27.53, lon: 68.76 },
   { slug: 'thatta', name: 'ٺٽو', lat: 24.75, lon: 67.92 },
   { slug: 'badin', name: 'بدين', lat: 24.66, lon: 68.84 },
   { slug: 'shikarpur', name: 'شڪارپور', lat: 27.96, lon: 68.64 },
   { slug: 'jacobabad', name: 'جيڪب آباد', lat: 28.28, lon: 68.44 },
+  { slug: 'sanghar', name: 'سانگهڑ', lat: 26.05, lon: 68.95 },
 ];
 
 function icon(code) {
