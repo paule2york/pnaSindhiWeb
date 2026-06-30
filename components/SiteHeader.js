@@ -10,7 +10,7 @@ const DEFAULT_HEADS = [
 ];
 
 function navClass(active) {
-  return `shrink-0 whitespace-nowrap text-[0.95rem] sm:text-base md:text-xl lg:text-[1.5rem] py-3 border-b-2 transition-colors duration-200 ${active ? 'text-brand-dark font-extrabold border-brand' : 'text-brand font-semibold hover:text-brand-dark border-transparent'}`;
+  return `shrink-0 whitespace-nowrap text-[0.95rem] sm:text-base md:text-xl lg:text-[1.5rem] py-3 border-b-2 transition-colors duration-200 ${active ? 'text-brand-dark font-extrabold border-brand' : 'text-brand font-bold hover:text-brand-dark border-transparent'}`;
 }
 
 export default function SiteHeader() {
@@ -67,7 +67,6 @@ export default function SiteHeader() {
   const navItems = [
     { key: 'home', href: '/', label: 'پهريون صفحو', active: pathname === '/' },
     ...CATEGORIES.map((c) => ({ key: c.slug, href: city ? `/${city}/${c.slug}` : `/?cat=${c.slug}`, label: c.name, active: isCat(c.slug) })),
-    { key: 'portal', href: '/cms/login', label: 'صحافي پورٽل', active: false },
   ];
 
   const renderItems = (prefix) =>
@@ -87,10 +86,7 @@ export default function SiteHeader() {
     <header className={`bg-white sticky top-0 z-40 border-b border-gray-200 transition-shadow duration-300 ${scrolled ? 'shadow-md' : ''}`}>
       <div className={`overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0' : 'max-h-48 opacity-100'}`}>
         <div className="max-w-6xl mx-auto px-4 py-5 flex items-center justify-between gap-3">
-          <div className="w-28 shrink-0">
-            <button onClick={toggleTheme} aria-label="theme" className="text-2xl leading-none hover:opacity-70">{dark ? '☀️' : '🌙'}</button>
-          </div>
-          <Link href="/" className="shrink-0 flex items-center justify-center">
+          <Link href="/" className="shrink-0 flex items-center">
             {logoOk ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src="/logo.png" alt="پنا سنڌي" onError={() => setLogoOk(false)} className="h-24 w-auto" />
@@ -101,9 +97,13 @@ export default function SiteHeader() {
               </span>
             )}
           </Link>
-          <div className="w-28 shrink-0 text-left text-accent text-xs leading-5">
-            <div>{date}</div>
-            <Link href="/" className="font-bold hover:underline">لايي خبرون</Link>
+          <div className="flex items-center gap-3 sm:gap-5">
+            <div className="text-left text-accent text-xs leading-5 hidden sm:block">
+              <div>{date}</div>
+              <Link href="/" className="font-bold hover:underline">لايي خبرون</Link>
+            </div>
+            <Link href="/cms/login" className="inline-flex items-center gap-1.5 bg-accent text-white text-sm md:text-base font-bold px-4 py-2 rounded-full hover:bg-brand-dark transition shrink-0">صحافي پورٽل</Link>
+            <button onClick={toggleTheme} aria-label="theme" className="text-2xl leading-none hover:opacity-70 shrink-0">{dark ? '☀️' : '🌙'}</button>
           </div>
         </div>
       </div>
