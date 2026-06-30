@@ -9,6 +9,9 @@ const DEFAULT_HEADS = [
   { title: 'تازيون خبرون لاء وزيٹ ڪريو', href: '/' },
 ];
 
+const BAR_STYLE = { background: 'linear-gradient(120deg, #8f0a20 0%, #c8102e 55%, #e11d2a 100%)' };
+const LABEL_STYLE = { backgroundColor: '#7a0818' };
+
 function navClass(active) {
   return `shrink-0 whitespace-nowrap text-[0.95rem] sm:text-base md:text-xl lg:text-[1.5rem] font-semibold py-3 border-b-2 transition-colors duration-200 ${active ? 'text-brand font-extrabold border-brand' : 'text-ink hover:text-brand border-transparent'}`;
 }
@@ -104,8 +107,8 @@ export default function SiteHeader() {
         </div>
       </div>
 
-      <div style= backgroundColor: '#c8102e'  className={`flex items-stretch overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0' : 'max-h-16 opacity-100'}`}>
-        <span style= backgroundColor: '#8f0a20'  className="text-white text-base font-bold px-4 flex items-center gap-2 shrink-0"><span className="live-dot-white" /><span>هيڊ لائنز</span></span>
+      <div style={BAR_STYLE} className={`flex items-stretch overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0' : 'max-h-16 opacity-100'}`}>
+        <span style={LABEL_STYLE} className="text-white text-base font-bold px-4 flex items-center gap-2 shrink-0"><span className="live-dot-white" /><span>هيڊ لائنز</span></span>
         <div className="ticker-wrap flex-1 overflow-hidden">
           <div className="ticker-track">
             <div className="ticker-group">{renderItems('a')}</div>
