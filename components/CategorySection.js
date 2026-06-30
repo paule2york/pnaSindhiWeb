@@ -1,12 +1,8 @@
 import Link from 'next/link';
 import { fetchFeedNews } from '../lib/rss';
 import { categoryName } from '../lib/data';
+import { articlePath } from '../lib/url';
 import Thumb from './Thumb';
-
-function linkFor(item) {
-  if (item.source === 'local' || !item.link) return '/';
-  return `/article?u=${item.id}&s=${encodeURIComponent(item.sourceName || '')}${item.native ? '&n=1' : ''}`;
-}
 
 export default async function CategorySection({ slug }) {
   const news = await fetchFeedNews(slug, 4);
@@ -22,7 +18,7 @@ export default async function CategorySection({ slug }) {
         <Link href={`/?cat=${slug}`} className="text-sm text-gray-500 hover:text-brand">وڊيڊ ←</Link>
       </div>
 
-      <Link href={linkFor(lead)} className="group block">
+      <Link href={articlePath(lead)} className="group block">
         <div className="aspect-[16/9] rounded-xl overflow-hidden bg-gray-100 mb-2">
           <Thumb src={lead.image} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
         </div>
@@ -31,7 +27,7 @@ export default async function CategorySection({ slug }) {
 
       <div className="divide-y divide-gray-200 mt-2">
         {rest.map((n) => (
-          <Link key={n.id} href={linkFor(n)} className="flex items-center gap-3 py-2.5 group">
+          <Link key={n.id} href={articlePath(n)} className="flex items-center gap-3 py-2.5 group">
             <div className="w-24 h-16 shrink-0 rounded-lg overflow-hidden bg-gray-100">
               <Thumb src={n.image} className="w-full h-full object-cover" />
             </div>

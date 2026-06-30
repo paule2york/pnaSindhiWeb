@@ -7,16 +7,12 @@ import CategorySection from '../components/CategorySection';
 import Thumb from '../components/Thumb';
 import { SectionSkeleton } from '../components/Skeletons';
 import { categoryName } from '../lib/data';
+import { articlePath } from '../lib/url';
 
 export const revalidate = 900;
 export const maxDuration = 60;
 
 const SECTION_SLUGS = ['pakistan', 'world', 'business', 'sports', 'health', 'entertainment'];
-
-function articleHref(item) {
-  if (item.source === 'local' || !item.link) return '/';
-  return `/article?u=${item.id}&s=${encodeURIComponent(item.sourceName || '')}${item.native ? '&n=1' : ''}`;
-}
 
 export default async function Home({ searchParams }) {
   const cat = searchParams?.cat || 'top';
@@ -24,7 +20,7 @@ export default async function Home({ searchParams }) {
 
   if (!news.length) {
     return (
-      <p className="px-6 py-20 text-center text-gray-500">هن وقت خبرون لوڈ نه ٹي سگهيون، مهرباني ڈري ٹوري دير ڈان پوءِ ڈوشش ڈريو.</p>
+      <p className="px-6 py-20 text-center text-gray-500">هن وقت خبرون لوڊ نه ٽي سگهيون، مهرباني ڊري ٽوري دير ڊان پوءِ ڊوشش ڊريو.</p>
     );
   }
 
@@ -41,7 +37,7 @@ export default async function Home({ searchParams }) {
           <h2 className="text-2xl font-bold text-accent border-b-2 border-accent pb-1 mb-3">فيچر</h2>
           <div className="divide-y divide-gray-200">
             {rightList.map((n) => (
-              <Link key={n.id} href={articleHref(n)} className="flex items-center gap-3 py-3 group">
+              <Link key={n.id} href={articlePath(n)} className="flex items-center gap-3 py-3 group">
                 <div className="w-24 h-16 shrink-0 rounded-lg overflow-hidden bg-gray-100">
                   <Thumb src={n.image} className="w-full h-full object-cover" />
                 </div>
@@ -53,7 +49,7 @@ export default async function Home({ searchParams }) {
 
         <div className="lg:col-span-2 order-1 lg:order-none">
           {lead ? (
-            <Link href={articleHref(lead)} className="group block relative rounded-2xl overflow-hidden min-h-[340px]">
+            <Link href={articlePath(lead)} className="group block relative rounded-2xl overflow-hidden min-h-[340px]">
               <Thumb src={lead.image} className="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-105" />
               <div className="absolute inset-0 hero-overlay" />
               <div className="relative p-6 pt-56 text-white">
@@ -71,7 +67,7 @@ export default async function Home({ searchParams }) {
           </h2>
           <div className="divide-y divide-gray-200">
             {leftList.map((n) => (
-              <Link key={n.id} href={articleHref(n)} className="flex items-center gap-3 py-3 group">
+              <Link key={n.id} href={articlePath(n)} className="flex items-center gap-3 py-3 group">
                 <div className="w-24 h-16 shrink-0 rounded-lg overflow-hidden bg-gray-100">
                   <Thumb src={n.image} className="w-full h-full object-cover" />
                 </div>

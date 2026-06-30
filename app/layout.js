@@ -9,9 +9,12 @@ const lateef = Lateef({
   variable: '--font-lateef',
 });
 
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://pna-sindhi-web.vercel.app';
+
 export const metadata = {
+  metadataBase: new URL(SITE),
   title: 'پنا سنڌي | Sindhi News',
-  description: 'سنڌي خبرون — شهر وار ٔ اين زمري وار ٔ خبرون',
+  description: 'سنڌي خبرون — سنڌ، پاڪستان ۽ دنيا جون تازيون خبرون سنڌي بوليء ھ.',
 };
 
 const themeScript =

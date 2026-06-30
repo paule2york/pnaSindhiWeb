@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { encodeUrl } from '../lib/url';
+import { articlePath } from '../lib/url';
 import Thumb from './Thumb';
 
 function fmt(d) {
@@ -13,9 +13,8 @@ function fmt(d) {
 export default function NewsCard({ item }) {
   const isLocal = item.source === 'local';
   const isNative = item.native || item.source === 'sindhi';
-  const href = !isLocal && item.link
-    ? `/article?u=${item.id || encodeUrl(item.link)}&s=${encodeURIComponent(item.sourceName || '')}${isNative ? '&n=1' : ''}`
-    : null;
+  const path = articlePath(item);
+  const href = path !== '/' ? path : null;
 
   const badgeClass = isLocal
     ? 'bg-amber-100 text-amber-700'
