@@ -15,7 +15,7 @@ export default function Thumb({ src, alt = '', className = '' }) {
     return (
       <div className={`flex items-center justify-center bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 ${className}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo.png" alt="" aria-hidden="true" className="w-1/2 max-w-[170px] opacity-90 select-none" />
+        <img src="/logo.png" alt="" aria-hidden="true" className="w-1/3 max-w-[110px] opacity-90 select-none" />
       </div>
     );
   }
