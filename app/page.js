@@ -4,6 +4,7 @@ import { fetchFeedNews } from '../lib/rss';
 import NewsCard from '../components/NewsCard';
 import CitySelector from '../components/CitySelector';
 import CategorySection from '../components/CategorySection';
+import Thumb from '../components/Thumb';
 import { SectionSkeleton } from '../components/Skeletons';
 import { categoryName } from '../lib/data';
 
@@ -41,12 +42,9 @@ export default async function Home({ searchParams }) {
           <div className="divide-y divide-gray-200">
             {rightList.map((n) => (
               <Link key={n.id} href={articleHref(n)} className="flex items-center gap-3 py-3 group">
-                {n.image ? (
-                  <div className="w-24 h-16 shrink-0 rounded-lg overflow-hidden bg-gray-100">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={n.image} alt="" className="w-full h-full object-cover" loading="lazy" />
-                  </div>
-                ) : null}
+                <div className="w-24 h-16 shrink-0 rounded-lg overflow-hidden bg-gray-100">
+                  <Thumb src={n.image} className="w-full h-full object-cover" />
+                </div>
                 <h3 className="flex-1 text-[1.2rem] font-bold leading-snug text-ink line-clamp-2 group-hover:text-brand">{n.title}</h3>
               </Link>
             ))}
@@ -56,12 +54,7 @@ export default async function Home({ searchParams }) {
         <div className="lg:col-span-2 order-1 lg:order-none">
           {lead ? (
             <Link href={articleHref(lead)} className="group block relative rounded-2xl overflow-hidden min-h-[340px]">
-              {lead.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={lead.image} alt="" className="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-105" />
-              ) : (
-                <div className="absolute inset-0 brand-gradient" />
-              )}
+              <Thumb src={lead.image} className="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-105" />
               <div className="absolute inset-0 hero-overlay" />
               <div className="relative p-6 pt-56 text-white">
                 <span className="bg-accent text-white text-xs px-2 py-0.5 rounded-full font-bold">ويب ڊيسڪ</span>
@@ -79,12 +72,9 @@ export default async function Home({ searchParams }) {
           <div className="divide-y divide-gray-200">
             {leftList.map((n) => (
               <Link key={n.id} href={articleHref(n)} className="flex items-center gap-3 py-3 group">
-                {n.image ? (
-                  <div className="w-24 h-16 shrink-0 rounded-lg overflow-hidden bg-gray-100">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={n.image} alt="" className="w-full h-full object-cover" loading="lazy" />
-                  </div>
-                ) : null}
+                <div className="w-24 h-16 shrink-0 rounded-lg overflow-hidden bg-gray-100">
+                  <Thumb src={n.image} className="w-full h-full object-cover" />
+                </div>
                 <h3 className="flex-1 text-[1.2rem] font-bold leading-snug text-ink line-clamp-2 group-hover:text-brand">{n.title}</h3>
               </Link>
             ))}

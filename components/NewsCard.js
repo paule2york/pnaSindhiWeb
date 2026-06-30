@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { encodeUrl } from '../lib/url';
+import Thumb from './Thumb';
 
 function fmt(d) {
   try {
@@ -22,12 +23,9 @@ export default function NewsCard({ item }) {
 
   const inner = (
     <article className="card-hover bg-white rounded-2xl overflow-hidden border border-gray-100 h-full flex flex-col">
-      {item.image ? (
-        <div className="aspect-[16/9] overflow-hidden bg-gray-100">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={item.image} alt="" className="w-full h-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
-        </div>
-      ) : null}
+      <div className="aspect-[16/9] overflow-hidden bg-gray-100">
+        <Thumb src={item.image} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
+      </div>
       <div className="p-5 flex flex-col flex-1">
         <div className="flex items-center gap-2 mb-2">
           <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${badgeClass}`}>
