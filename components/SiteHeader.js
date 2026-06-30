@@ -11,6 +11,7 @@ const DEFAULT_HEADS = [
 
 const HIJRI_MONTHS = ['محرم', 'صفر', 'ربيع الاول', 'ربيع الثاني', 'جمادى الاول', 'جمادى الثاني', 'رجب', 'شعبان', 'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'];
 const DATE_FONT = { fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' };
+const HIJRI_FONT = { fontFamily: '"Noto Naskh Arabic", "Scheherazade New", "MB Lateefi", "Times New Roman", serif' };
 
 function navClass(active) {
   return `shrink-0 whitespace-nowrap text-[0.95rem] sm:text-base md:text-xl lg:text-[1.5rem] py-3 border-b-2 transition-colors duration-200 ${active ? 'text-brand-dark font-extrabold border-brand' : 'text-brand font-bold hover:text-brand-dark border-transparent'}`;
@@ -116,7 +117,7 @@ export default function SiteHeader() {
           <div className="flex items-center gap-3 sm:gap-5">
             <div className="text-right leading-tight hidden sm:block">
               <div style={DATE_FONT} className="text-ink text-sm font-semibold tracking-wide">{date}</div>
-              {hijri ? <div className="text-accent text-[0.95rem] font-bold mt-0.5">{hijri}</div> : null}
+              {hijri ? <div style={HIJRI_FONT} className="text-accent text-[1.05rem] font-bold mt-1">{hijri}</div> : null}
             </div>
             <Link href="/cms/login" className="inline-flex items-center gap-1.5 bg-accent text-white text-sm md:text-base font-bold px-4 py-2 rounded-full hover:bg-brand-dark transition shrink-0">صحافي پورٽل</Link>
             <button onClick={toggleTheme} aria-label="theme" className="text-2xl leading-none hover:opacity-70 shrink-0">{dark ? '☀️' : '🌙'}</button>
