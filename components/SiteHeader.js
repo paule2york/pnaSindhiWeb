@@ -67,12 +67,14 @@ export default function SiteHeader() {
   const renderItems = (prefix) =>
     tickerUnit.map((h, i) => (
       <span key={`${prefix}${i}`} className="inline-flex items-center">
-        <Link href={h.href || '/'} className="text-[1.5rem] text-ink hover:text-brand">{h.title}</Link>
+        <Link href={h.href || '/'} className="text-[1.5rem] text-white hover:text-white/75 font-semibold">{h.title}</Link>
         {logoOk ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src="/logo.png" alt="" aria-hidden="true" className="h-6 w-auto shrink-0 mx-5" />
+          <span className="mx-4 inline-flex items-center bg-white rounded px-1.5 py-0.5 shrink-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.png" alt="" aria-hidden="true" className="h-5 w-auto" />
+          </span>
         ) : (
-          <span aria-hidden="true" className="text-brand text-lg mx-5">◆</span>
+          <span aria-hidden="true" className="text-white text-lg mx-4">◆</span>
         )}
       </span>
     ));
@@ -102,8 +104,8 @@ export default function SiteHeader() {
         </div>
       </div>
 
-      <div className={`bg-gray-50 border-gray-200 flex items-stretch overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0 border-0' : 'max-h-16 opacity-100 border-y'}`}>
-        <span className="bg-accent text-white text-base font-bold px-4 flex items-center gap-2 shrink-0"><span className="live-dot-white" /><span>هيڊ لائنز</span></span>
+      <div className={`brand-gradient flex items-stretch overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0' : 'max-h-16 opacity-100'}`}>
+        <span className="bg-brand-dark text-white text-base font-bold px-4 flex items-center gap-2 shrink-0"><span className="live-dot-white" /><span>هيڊ لائنز</span></span>
         <div className="ticker-wrap flex-1 overflow-hidden">
           <div className="ticker-track">
             <div className="ticker-group">{renderItems('a')}</div>
