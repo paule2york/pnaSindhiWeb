@@ -64,12 +64,16 @@ export default function WeatherWidget() {
   }
 
   return (
-    <div className="flex items-center gap-1.5 bg-gray-100 rounded-full pl-2 pr-3 py-1.5 shrink-0">
+    <div className="flex items-center gap-2 rounded-full border border-gray-200 dark:border-white/20 bg-white dark:bg-white/10 shadow-sm px-3 py-1.5 shrink-0">
       <span className="text-xl leading-none" aria-hidden="true">{icon(code)}</span>
-      <span className="text-ink font-extrabold text-base leading-none">{temp == null ? '—' : `${temp}°`}</span>
-      <select value={slug} onChange={onChange} aria-label="city" className="bg-transparent text-ink text-sm font-bold outline-none cursor-pointer max-w-[6.5rem]">
-        {CITIES.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
-      </select>
+      <span className="text-ink dark:text-white font-extrabold text-base leading-none tabular-nums">{temp == null ? '—' : `${temp}°`}</span>
+      <span aria-hidden="true" className="w-px h-4 bg-gray-200 dark:bg-white/25" />
+      <div className="relative flex items-center">
+        <select value={slug} onChange={onChange} aria-label="city" className="appearance-none bg-transparent text-brand dark:text-white text-sm font-bold outline-none cursor-pointer pl-4 pr-0 max-w-[7rem] hover:text-brand-dark transition-colors">
+          {CITIES.map((c) => <option key={c.slug} value={c.slug} className="text-ink">{c.name}</option>)}
+        </select>
+        <span aria-hidden="true" className="pointer-events-none absolute left-0 text-brand dark:text-white text-[0.55rem]">▼</span>
+      </div>
     </div>
   );
 }

@@ -146,7 +146,7 @@ export default function SiteHeader() {
                 autoFocus
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="خبر ڊوليو…"
+                placeholder="خبر ڳوليو…"
                 className="w-full rounded-xl border border-gray-300 focus:border-brand bg-white text-ink placeholder-gray-400 text-base pr-12 pl-4 py-3 outline-none transition"
               />
               <button type="submit" aria-label="search" className="absolute right-3 top-1/2 -translate-y-1/2 text-brand">
