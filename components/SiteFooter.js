@@ -7,7 +7,6 @@ const LINKS = [
   { label: 'رازداري پاليسي', href: '#' },
   { label: 'استعمال جون شرطون', href: '#' },
   { label: 'رابطو', href: '#' },
-  { label: 'ڊولا', href: '/search' },
   { label: 'صحافي پورٽل', href: '/cms/login' },
 ];
 
