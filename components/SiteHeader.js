@@ -104,8 +104,8 @@ export default function SiteHeader() {
         </div>
       </div>
 
-      <div className={`brand-gradient flex items-stretch overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0' : 'max-h-16 opacity-100'}`}>
-        <span className="bg-brand-dark text-white text-base font-bold px-4 flex items-center gap-2 shrink-0"><span className="live-dot-white" /><span>هيڊ لائنز</span></span>
+      <div style= backgroundColor: '#c8102e'  className={`flex items-stretch overflow-hidden transition-all duration-300 ${scrolled ? 'max-h-0 opacity-0' : 'max-h-16 opacity-100'}`}>
+        <span style= backgroundColor: '#8f0a20'  className="text-white text-base font-bold px-4 flex items-center gap-2 shrink-0"><span className="live-dot-white" /><span>هيڊ لائنز</span></span>
         <div className="ticker-wrap flex-1 overflow-hidden">
           <div className="ticker-track">
             <div className="ticker-group">{renderItems('a')}</div>
