@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { decodeUrl, slugify, articlePath } from '../lib/url';
+import { getArticleById } from '../lib/store';
 import { extractArticle } from '../lib/extract';
 import { toSindhi, toSindhiMany } from '../lib/translate';
 import { fetchFeedNews } from '../lib/rss';
@@ -63,8 +64,16 @@ function SidebarItem({ n }) {
 }
 
 export default async function ArticleView({ token, native }) {
+  const isNumericId = /^\d+$/.test(String(token || ''));
   let url = '';
-  try { url = decodeUrl(token); } catch (e) { url = ''; }
+  let stored = null;
+  if (isNumericId) {
+    stored = await getArticleById(token);
+    url = (stored && stored.link) || '';
+  } else {
+    try { url = decodeUrl(token); } catch (e) { url = ''; }
+  }
+  const isNative = native || (stored && stored.native) || false;
 
   if (!url) {
     return <div className="px-6 py-20 text-center text-gray-500">خبر نه ملي.</div>;
@@ -75,22 +84,22 @@ export default async function ArticleView({ token, native }) {
   if (!data || !data.paragraphs || data.paragraphs.length === 0) {
     return (
       <div className="max-w-3xl mx-auto px-6 py-16 text-center">
-        <p className="text-gray-600 mb-4">هيءَ خبر هتي ڍائي نه ٽي سگهي.</p>
-        <div className="mt-2"><Link href="/" className="text-sm text-brand font-bold">→ واپس مُڪ صفحي تي</Link></div>
+        <p className="text-gray-600 mb-4">هيءَ خبر هتي ڈائي نه ٹي سگهي.</p>
+        <div className="mt-2"><Link href="/" className="text-sm text-brand font-bold">→ واپس مُڈڪ صفحي تي</Link></div>
       </div>
     );
   }
 
   const [titleSd, paras, feedRaw] = await Promise.all([
-    native ? Promise.resolve(data.title) : toSindhi(data.title),
-    native ? Promise.resolve(data.paragraphs.slice(0, 20)) : toSindhiMany(data.paragraphs.slice(0, 20)),
+    isNative ? Promise.resolve(data.title) : toSindhi(data.title),
+    isNative ? Promise.resolve(data.paragraphs.slice(0, 20)) : toSindhiMany(data.paragraphs.slice(0, 20)),
     fetchFeedNews('top', 14),
   ]);
   const feed = (feedRaw || []).filter((n) => n.link && n.link !== url);
   const popular = feed.slice(0, 6);
   const related = feed.slice(6, 12);
   const relTime = timeAgoSindhi(data.publishedDate);
-  const pageUrl = `${SITE}/article/${slugify(titleSd)}/${token}${native ? '?n=1' : ''}`;
+  const pageUrl = `${SITE}/article/${slugify(titleSd)}/${token}${isNative ? '?n=1' : ''}`;
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
@@ -106,7 +115,7 @@ export default async function ArticleView({ token, native }) {
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-full bg-brand-light text-brand-dark flex items-center justify-center font-bold text-2xl">پ</div>
               <div className="leading-tight">
-                <div className="text-xl font-bold text-ink">ويب ڊيسڪ</div>
+                <div className="text-xl font-bold text-ink">ويب ڈيسڪ</div>
                 {relTime ? <div className="text-base text-gray-500">{relTime}</div> : null}
               </div>
             </div>

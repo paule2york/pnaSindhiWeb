@@ -2,6 +2,7 @@ import ArticleView from '../../../../components/ArticleView';
 import { decodeUrl, slugify } from '../../../../lib/url';
 import { extractArticle } from '../../../../lib/extract';
 import { toSindhi } from '../../../../lib/translate';
+import { getArticleById } from '../../../../lib/store';
 
 export const revalidate = 3600;
 export const maxDuration = 60;
@@ -9,9 +10,16 @@ export const maxDuration = 60;
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://pna-sindhi-web.vercel.app';
 
 export async function generateMetadata({ params, searchParams }) {
-  const native = searchParams?.n === '1';
+  const isNumericId = /^\d+$/.test(String(params.token || ''));
   let url = '';
-  try { url = decodeUrl(params.token); } catch (e) { url = ''; }
+  let stored = null;
+  if (isNumericId) {
+    stored = await getArticleById(params.token);
+    url = (stored && stored.link) || '';
+  } else {
+    try { url = decodeUrl(params.token); } catch (e) { url = ''; }
+  }
+  const native = searchParams?.n === '1' || (stored && stored.native) || false;
   if (!url) return { title: 'خبر | پنا سنڌي' };
   try {
     const data = await extractArticle(url);
