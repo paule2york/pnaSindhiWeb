@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { decodeUrl, slugify, articlePath } from '../lib/url';
+import { decodeUrl, articlePath } from '../lib/url';
 import { getArticleById } from '../lib/store';
 import { extractArticle } from '../lib/extract';
 import { toSindhi, toSindhiMany } from '../lib/translate';
@@ -99,7 +99,7 @@ export default async function ArticleView({ token, native }) {
   const popular = feed.slice(0, 6);
   const related = feed.slice(6, 12);
   const relTime = timeAgoSindhi(data.publishedDate);
-  const pageUrl = `${SITE}/article/${slugify(titleSd)}/${token}${isNative ? '?n=1' : ''}`;
+  const pageUrl = `${SITE}/article/${token}${isNative ? '?n=1' : ''}`;
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
