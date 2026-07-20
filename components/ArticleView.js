@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { decodeUrl, articlePath } from '../lib/url';
 import { getArticleById } from '../lib/store';
 import { extractArticle } from '../lib/extract';
-import { toSindhi, toSindhiMany } from '../lib/translate';
+import { toSindhi, toSindhiMany, toSindhiRewrite } from '../lib/translate';
 import { fetchFeedNews } from '../lib/rss';
 import NewsCard from './NewsCard';
 
@@ -91,8 +91,8 @@ export default async function ArticleView({ token, native }) {
   }
 
   const [titleSd, paras, feedRaw] = await Promise.all([
-    isNative ? Promise.resolve(data.title) : toSindhi(data.title),
-    isNative ? Promise.resolve(data.paragraphs.slice(0, 20)) : toSindhiMany(data.paragraphs.slice(0, 20)),
+    isNative ? toSindhiRewrite(data.title) : toSindhi(data.title),
+    isNative ? Promise.all(data.paragraphs.slice(0, 20).map((p) => toSindhiRewrite(p))) : toSindhiMany(data.paragraphs.slice(0, 20)),
     fetchFeedNews('top', 14),
   ]);
   const feed = (feedRaw || []).filter((n) => n.link && n.link !== url);
