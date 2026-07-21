@@ -10,31 +10,61 @@ export const maxDuration = 60;
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://pna-sindhi-web.vercel.app';
 
+// Search ALL categories with big limits so past articles are findable.
+const SEARCH_CATEGORIES = ['top', 'sindh', 'pakistan', 'world', 'business', 'sports', 'technology'];
+
+async function findItem(token) {
+  const isNumeric = /^\d+$/.test(String(token || ''));
+  if (!isNumeric) {
+    try { const url = decodeUrl(token); return { url, item: null }; }
+    catch (e) { return { url: '', item: null }; }
+  }
+
+  // Try Supabase first
+  const stored = await getArticleById(token).catch(() => null);
+  if (stored && stored.link) return { url: stored.link, item: stored };
+
+  // Search all categories for matching shortId
+  const results = await Promise.all(
+    SEARCH_CATEGORIES.map((cat) =>
+      fetchFeedNews(cat, 200).catch(() => [])
+    )
+  );
+  for (const items of results) {
+    if (!Array.isArray(items)) continue;
+    const found = items.find((n) => n && n.link && shortId(n.link) === token);
+    if (found) return { url: found.link, item: found };
+  }
+  return { url: '', item: null };
+}
+
 export async function generateMetadata({ params: paramsPromise, searchParams: searchParamsPromise }) {
   const params = await paramsPromise;
   const searchParams = await searchParamsPromise;
-  let url = searchParams?.u ? decodeUrl(searchParams.u) : '';
-  let stored = null;
   const native = searchParams?.n === '1';
-
-  if (!url) {
-    const isNumericId = /^\d+$/.test(String(params.token || ''));
-    if (isNumericId) {
-      stored = await getArticleById(params.token).catch(() => null);
-      url = (stored && stored.link) || '';
-      if (!url) {
-        const allNews = await fetchFeedNews('top', 60).catch(() => []);
-        const found = allNews.find(n => n.link && shortId(n.link) === params.token);
-        if (found) { url = found.link; stored = found; }
-      }
-    } else {
-      try { url = decodeUrl(params.token); } catch (e) { url = ''; }
-    }
-  }
+  const { url, item } = await findItem(params.token);
   if (!url) return { title: 'خبر | پي اين اي سنڌي' };
   try {
     const data = await extractArticle(url);
-    if (!data || !data.title) return { title: 'خبر | پي اين اي سنڌي' };
+    if (!data || !data.title) {
+      // Use RSS fallback data for metadata
+      if (item && item.title) {
+        return {
+          title: `${item.title} | پي اين اي سنڌي`,
+          description: (item.description || '').slice(0, 160),
+          alternates: { canonical: `${SITE}/article/${params.token}${native ? '?n=1' : ''}` },
+          openGraph: {
+            title: item.title,
+            description: (item.description || '').slice(0, 160),
+            url: `${SITE}/article/${params.token}${native ? '?n=1' : ''}`,
+            images: item.image ? [item.image] : [],
+            type: 'article',
+          },
+          twitter: { card: 'summary_large_image', title: item.title, description: (item.description || '').slice(0, 160), images: item.image ? [item.image] : [] },
+        };
+      }
+      return { title: 'خبر | پي اين اي سنڌي' };
+    }
     const title = native ? data.title : await toSindhi(data.title);
     const desc = (data.paragraphs && data.paragraphs[0]) ? String(data.paragraphs[0]).slice(0, 160) : 'پي اين اي سنڌي تي تازيون خبرون';
     const canonical = `${SITE}/article/${params.token}${native ? '?n=1' : ''}`;
@@ -47,6 +77,12 @@ export async function generateMetadata({ params: paramsPromise, searchParams: se
       twitter: { card: 'summary_large_image', title, description: desc, images },
     };
   } catch (e) {
+    if (item && item.title) {
+      return {
+        title: `${item.title} | پي اين اي سنڌي`,
+        description: (item.description || '').slice(0, 160),
+      };
+    }
     return { title: 'خبر | پي اين اي سنڌي' };
   }
 }
@@ -55,41 +91,16 @@ export default async function Page({ params: paramsPromise, searchParams: search
   const params = await paramsPromise;
   const searchParams = await searchParamsPromise;
   const native = searchParams?.n === '1';
-  const b64Url = searchParams?.u || '';
-  let url = b64Url ? decodeUrl(b64Url) : '';
-  let stored = null;
-
-  // If we have a numeric token but no ?u=, try to resolve
-  if (!url && /^\d+$/.test(String(params.token || ''))) {
-    stored = await getArticleById(params.token).catch(() => null);
-    url = (stored && stored.link) || '';
-    if (!url) {
-      const allNews = await fetchFeedNews('top', 60).catch(() => []);
-      const found = allNews.find(n => n.link && shortId(n.link) === params.token);
-      if (found) { url = found.link; stored = found; }
-    }
-  } else if (!url) {
-    try { url = decodeUrl(params.token); } catch (e) { url = ''; }
-  }
-
-  // Try to find pre-translated RSS data for this article (fallback if extract fails)
-  let rssItem = null;
-  if (!stored && url) {
-    const allNews = await fetchFeedNews('top', 60).catch(() => []);
-    const found = allNews.find(n => n.link === url);
-    if (found) rssItem = found;
-  } else if (stored) {
-    rssItem = stored;
-  }
+  const { url, item } = await findItem(params.token);
 
   return (
     <ArticleView
       token={params.token}
       url={url}
       native={native}
-      rssTitle={rssItem?.title || ''}
-      rssDesc={rssItem?.description || ''}
-      rssImage={rssItem?.image || ''}
+      rssTitle={item?.title || ''}
+      rssDesc={item?.description || ''}
+      rssImage={item?.image || ''}
     />
   );
 }
