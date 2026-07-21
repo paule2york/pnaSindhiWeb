@@ -64,10 +64,11 @@ function SidebarItem({ n }) {
 }
 
 export default async function ArticleView({ token, url: passUrl, native }) {
-  const isNumericId = /^\d+$/.test(String(token || ''));
+  // page.js resolves the URL and passes it directly.
+  // Fallback: if no passUrl, try decoding the token directly.
   let url = passUrl || '';
   let stored = null;
-  if (!url && isNumericId) {
+  if (!url && /^\d+$/.test(String(token || ''))) {
     stored = await getArticleById(token).catch(() => null);
     url = (stored && stored.link) || '';
   } else if (!url) {
