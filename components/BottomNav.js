@@ -62,7 +62,7 @@ export default function BottomNav() {
   return (
     <nav
       dir="ltr"
-      className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-[#1c1c1c] border-t border-gray-200 dark:border-gray-800 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-[#1c1c1c] border-t border-gray-200 dark:border-gray-800 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]"
     >
       <div className="flex items-center justify-around max-w-lg mx-auto h-16 pb-1">
         {ITEMS.map((it) => {
