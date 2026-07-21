@@ -63,14 +63,14 @@ function SidebarItem({ n }) {
   );
 }
 
-export default async function ArticleView({ token, native }) {
+export default async function ArticleView({ token, url: passUrl, native }) {
   const isNumericId = /^\d+$/.test(String(token || ''));
-  let url = '';
+  let url = passUrl || '';
   let stored = null;
-  if (isNumericId) {
-    stored = await getArticleById(token);
+  if (!url && isNumericId) {
+    stored = await getArticleById(token).catch(() => null);
     url = (stored && stored.link) || '';
-  } else {
+  } else if (!url) {
     try { url = decodeUrl(token); } catch (e) { url = ''; }
   }
   const isNative = native || (stored && stored.native) || false;

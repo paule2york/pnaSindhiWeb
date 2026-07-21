@@ -1,8 +1,9 @@
 import ArticleView from '../../../components/ArticleView';
-import { decodeUrl } from '../../../lib/url';
+import { decodeUrl, shortId } from '../../../lib/url';
 import { extractArticle } from '../../../lib/extract';
 import { toSindhi } from '../../../lib/translate';
 import { getArticleById } from '../../../lib/store';
+import { fetchFeedNews } from '../../../lib/rss';
 
 export const revalidate = 3600;
 export const maxDuration = 60;
@@ -18,6 +19,14 @@ export async function generateMetadata({ params: paramsPromise, searchParams: se
   if (isNumericId) {
     stored = await getArticleById(params.token);
     url = (stored && stored.link) || '';
+    if (!url) {
+      const allNews = await fetchFeedNews('top', 60).catch(() => []);
+      const found = allNews.find(n => n.link && shortId(n.link) === params.token);
+      if (found) {
+        url = found.link;
+        stored = found;
+      }
+    }
   } else {
     try { url = decodeUrl(params.token); } catch (e) { url = ''; }
   }
@@ -45,6 +54,23 @@ export async function generateMetadata({ params: paramsPromise, searchParams: se
 export default async function Page({ params: paramsPromise, searchParams: searchParamsPromise }) {
   const params = await paramsPromise;
   const searchParams = await searchParamsPromise;
-  const native = searchParams?.n === '1';
-  return <ArticleView token={params.token} native={native} />;
+  const isNumericId = /^\d+$/.test(String(params.token || ''));
+  let url = '';
+  let stored = null;
+  if (isNumericId) {
+    stored = await getArticleById(params.token).catch(() => null);
+    url = (stored && stored.link) || '';
+    if (!url) {
+      const allNews = await fetchFeedNews('top', 60).catch(() => []);
+      const found = allNews.find(n => n.link && shortId(n.link) === params.token);
+      if (found) {
+        url = found.link;
+        stored = found;
+      }
+    }
+  } else {
+    try { url = decodeUrl(params.token); } catch (e) { url = ''; }
+  }
+  const native = searchParams?.n === '1' || (stored && stored.native) || false;
+  return <ArticleView token={params.token} url={url} native={native} />;
 }
