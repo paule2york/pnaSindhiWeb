@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'رازداري پاليسي | پنا سنڌي',
-  description: 'پنا سنڌي توهان جي ذاتي رازداريء جو احترام ڪري ٹو.',
+  title: 'رازداري پاليسي | پي اين اي سنڌي',
+  description: 'پي اين اي سنڌي توهان جي ذاتي رازداريء جو احترام ڪري ٿو.',
 };
 
 export default function PrivacyPage() {
@@ -9,7 +9,7 @@ export default function PrivacyPage() {
       <h1 className="text-[2.5rem] font-bold text-brand-dark mb-2">رازداري پاليسي</h1>
       <div className="h-1 w-20 bg-accent rounded mb-8" />
       <div className="space-y-5 text-[1.3rem] leading-relaxed text-gray-800">
-        <p>پنا سنڌي توهان جي ذاتي رازداريء جو احترام ڪري ٹو. هيءَ پاليسي ٹاڍائي ٹي تي اسان ڪهڑي معلومات گڏ ڪريون ٹا ۽ ان ڪو ڪيئن استعمال ڪريون ٹا.</p>
+        <p>پي اين اي سنڌي توهان جي ذاتي رازداريء جو احترام ڪري ٿو. هيءَ پاليسي ٻڌائي ٿي ته اسان ڪهڙي معلومات گڏ ڪريون ٿا ۽ ان کي ڪيئن استعمال ڪريون ٿا.</p>
         <h2 className="text-2xl font-bold text-brand-dark pt-2">معلومات گڏ ڪرٱ</h2>
         <p>اسان عام طور تي توهان ڪان ڪا ذاتي معلومات نٹو گهرون. ويب سائيٹ جي ڪارڪردگيء ڪو بهتر بنائڑ لاءِ اسان بنيادي شماريات ۽ ڪوڪيز استعمال ڪري سگهون ٹا.</p>
         <h2 className="text-2xl font-bold text-brand-dark pt-2">معلومات جو استعمال</h2>

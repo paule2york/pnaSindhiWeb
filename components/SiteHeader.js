@@ -6,7 +6,7 @@ import { CATEGORIES, CITIES } from '../lib/data';
 import WeatherWidget from './WeatherWidget';
 
 const DEFAULT_HEADS = [
-  { title: 'پنا سنڌي — سنڌ ۽ پاڪستان جون تازيون خبرون', href: '/' },
+  { title: 'پي اين اي سنڌي — سنڌ ۽ پاڪستان جون تازيون خبرون', href: '/' },
   { title: 'تازيون خبرون لاء وزيٹ ڪريو', href: '/' },
 ];
 
@@ -118,7 +118,7 @@ export default function SiteHeader() {
           <Link href="/" className="shrink-0 flex items-center">
             {logoOk ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src="/logo.png" alt="پنا سنڌي" onError={() => setLogoOk(false)} className="h-24 w-auto" />
+              <img src="/logo.png" alt="پي اين اي سنڌي" onError={() => setLogoOk(false)} className="h-24 w-auto" />
             ) : (
               <span className="flex flex-col items-center leading-none">
                 <span className="text-4xl font-extrabold tracking-tight text-ink">PNA</span>
@@ -172,7 +172,7 @@ export default function SiteHeader() {
           <Link href="/" aria-label="home" className={`shrink-0 flex items-center overflow-hidden transition-all duration-300 ${scrolled ? 'w-auto opacity-100 ml-1 mr-1' : 'w-0 opacity-0'}`}>
             {logoOk ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src="/logo.png" alt="پنا سنڌي" onError={() => setLogoOk(false)} className="h-9 w-auto" />
+              <img src="/logo.png" alt="پي اين اي سنڌي" onError={() => setLogoOk(false)} className="h-9 w-auto" />
             ) : (
               <span className="flex items-end gap-1 leading-none">
                 <span className="text-lg font-extrabold text-ink">PNA</span>

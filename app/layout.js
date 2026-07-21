@@ -13,8 +13,8 @@ const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://pna-sindhi-web.vercel.
 
 export const metadata = {
   metadataBase: new URL(SITE),
-  title: 'پنا سنڌي | Sindhi News',
-  description: 'سنڌي خبرون — سنڌ، پاڪستان ۽ دنيا جون تازيون خبرون سنڌي بوليء ھ.',
+  title: 'پي اين اي سنڌي | Sindhi News',
+  description: 'سنڌي خبرون — سنڌ، پاڪستان ۽ دنيا جون تازيون خبرون سنڌي بولي ۾.',
 };
 
 const themeScript =

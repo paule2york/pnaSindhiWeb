@@ -38,7 +38,7 @@ export default function SiteFooter() {
       <div className="max-w-6xl mx-auto px-6 py-9">
         <div className="flex justify-center mb-6">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="پنا سنڌي" className="h-20 w-auto" />
+          <img src="/logo.png" alt="پي اين اي سنڌي" className="h-20 w-auto" />
         </div>
         <nav className="flex flex-wrap items-center justify-center gap-y-2 text-lg md:text-xl font-bold text-ink mb-7">
           {LINKS.map((l, i) => (
@@ -57,7 +57,7 @@ export default function SiteFooter() {
         </div>
       </div>
       <div className="bg-brand text-white text-center text-sm py-3.5 px-4">
-        © {year} پنا سنڌي — سڀ حق محفوظ آهن
+        © {year} پي اين اي سنڌي — سڀ حق محفوظ آهن
       </div>
     </footer>
   );

@@ -29,7 +29,7 @@ export default function VerticalMenu() {
       >
         <div className="p-5">
           <Link href="/" onClick={() => setOpen(false)} className="block">
-            <span className="text-2xl font-bold">پنا سنڌي</span>
+            <span className="text-2xl font-bold">پي اين اي سنڌي</span>
           </Link>
           <div className="flex items-center gap-2 mt-2">
             <span className="live-dot" />

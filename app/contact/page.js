@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'رابطو | پنا سنڌي',
-  description: 'پنا سنڌي سان رابطو ڪريو.',
+  title: 'رابطو | پي اين اي سنڌي',
+  description: 'پي اين اي سنڌي سان رابطو ڪريو.',
 };
 
 export default function ContactPage() {
@@ -12,7 +12,7 @@ export default function ContactPage() {
         <p>اسان سان رابطو ڪرٱ لاءِ توهان جو آڌرڀاءُ آهي. خبر، تجويز، شڪايت يا اشتهار بابت اسان ڪي لڪو.</p>
         <div className="bg-gray-50 rounded-xl p-6 space-y-3">
           <p><span className="font-bold text-brand-dark">اي ميل:</span> info@pnasindhi.com</p>
-          <p><span className="font-bold text-brand-dark">سوشل ميڊيا:</span> فيس بڪ، انسٹاگرام، يوٹيوب ۽ X تي پنا سنڌي ڪو فالو ڪريو.</p>
+          <p><span className="font-bold text-brand-dark">سوشل ميڊيا:</span> فيس بڪ، انسٽاگرام، يوٽيوب ۽ X تي پي اين اي سنڌي کي فالو ڪريو.</p>
         </div>
         <p>اسان توهان جي راي ۽ تجويزن جو هميشه خيرمقدم ڪريون ٹا.</p>
       </div>
