@@ -2,6 +2,8 @@ import './globals.css';
 import { Lateef } from 'next/font/google';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
+import BottomNav from '../components/BottomNav';
+import DrawerOpener from '../components/DrawerOpener';
 
 const lateef = Lateef({
   subsets: ['arabic'],
@@ -15,6 +17,18 @@ export const metadata = {
   metadataBase: new URL(SITE),
   title: 'پي اين اي سنڌي | Sindhi News',
   description: 'سنڌي خبرون — سنڌ، پاڪستان ۽ دنيا جون تازيون خبرون سنڌي بولي ۾.',
+  manifest: '/manifest.json',
+  icons: {
+    icon: '/logo.png',
+    apple: '/logo.png',
+  },
+};
+
+export const viewport = {
+  themeColor: '#c8102e',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 const themeScript =
@@ -29,8 +43,10 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <SiteHeader />
-        <main className="max-w-6xl mx-auto min-h-screen">{children}</main>
+        <DrawerOpener />
+        <main className="max-w-6xl mx-auto min-h-screen pb-20 md:pb-0">{children}</main>
         <SiteFooter />
+        <BottomNav />
       </body>
     </html>
   );

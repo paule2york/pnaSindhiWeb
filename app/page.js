@@ -12,98 +12,110 @@ import { articlePath } from '../lib/url';
 export const revalidate = 900;
 export const maxDuration = 60;
 
-const SECTION_SLUGS = ['pakistan', 'world', 'business', 'sports', 'health', 'entertainment'];
+const SECTION_SLUGS = ['sindh', 'pakistan', 'world', 'business', 'sports', 'health', 'entertainment'];
 
 export default async function Home({ searchParams }) {
   const cat = searchParams?.cat || 'top';
-  const news = await fetchFeedNews(cat, 40);
 
-  if (!news.length) {
+  // For top page: load sindh + pakistan featured sections, plus lead hero
+  if (cat === 'top') {
+    const [leadNews, sindhNews, pakistanNews] = await Promise.all([
+      fetchFeedNews('top', 1),
+      fetchFeedNews('sindh', 10),
+      fetchFeedNews('pakistan', 10),
+    ]);
+
+    const lead = leadNews?.[0];
+    const sindhItems = sindhNews || [];
+    const pakistanItems = pakistanNews || [];
+
     return (
-      <p className="px-6 py-20 text-center text-gray-500">هن وقت خبرون لوڊ نه ٽي سگهيون، مهرباني ڊري ٽوري دير ڊان پوءِ ڊوشش ڊريو.</p>
-    );
-  }
-
-  const lead = news[0];
-  const rightList = news.slice(1, 6);
-  const leftList = news.slice(6, 11);
-  const grid = news.slice(0, 30);
-  const showSections = cat === 'top';
-
-  return (
-    <div className="pb-4 px-4 pt-5">
-      <section className="grid lg:grid-cols-4 gap-5">
-        <div className="lg:col-span-1 order-2 lg:order-none">
-          <h2 className="text-2xl font-bold text-accent border-b-2 border-accent pb-1 mb-3">فيچر</h2>
-          <div className="divide-y divide-gray-200">
-            {rightList.map((n) => (
-              <Link key={n.id} href={articlePath(n)} className="flex items-center gap-3 py-3 group">
-                <div className="w-24 h-16 shrink-0 rounded-lg overflow-hidden bg-gray-100">
-                  <Thumb src={n.image} className="w-full h-full object-cover" />
-                </div>
-                <h3 className="flex-1 text-[1.2rem] font-bold leading-snug text-ink line-clamp-2 group-hover:text-brand">{n.title}</h3>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        <div className="lg:col-span-2 order-1 lg:order-none">
-          {lead ? (
+      <div className="pb-4 px-4 pt-5">
+        {/* HERO SECTION */}
+        {lead ? (
+          <section className="mb-8">
             <Link href={articlePath(lead)} className="group block relative rounded-2xl overflow-hidden min-h-[340px]">
               <Thumb src={lead.image} className="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-105" />
               <div className="absolute inset-0 hero-overlay" />
               <div className="relative p-6 pt-56 text-white">
-                <span className="bg-accent text-white text-xs px-2 py-0.5 rounded-full font-bold">ويب ڊيسڪ</span>
+                <span className="bg-accent text-white text-xs px-2 py-0.5 rounded-full font-bold">فيچر خبر</span>
                 <h2 className="text-2xl md:text-3xl font-bold mt-3 leading-relaxed line-clamp-3">{lead.title}</h2>
                 {lead.description ? <p className="text-white/85 text-base mt-2 line-clamp-2">{lead.description}</p> : null}
               </div>
             </Link>
-          ) : null}
-        </div>
+          </section>
+        ) : null}
 
-        <div className="lg:col-span-1 order-3 lg:order-none">
-          <h2 className="text-xl font-bold text-white bg-accent inline-flex items-center gap-1.5 px-3 py-1 rounded mb-3">
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />لايي
-          </h2>
-          <div className="divide-y divide-gray-200">
-            {leftList.map((n) => (
-              <Link key={n.id} href={articlePath(n)} className="flex items-center gap-3 py-3 group">
-                <div className="w-24 h-16 shrink-0 rounded-lg overflow-hidden bg-gray-100">
-                  <Thumb src={n.image} className="w-full h-full object-cover" />
-                </div>
-                <h3 className="flex-1 text-[1.2rem] font-bold leading-snug text-ink line-clamp-2 group-hover:text-brand">{n.title}</h3>
-              </Link>
-            ))}
+        {/* Featured sidebar: right side on desktop, scrollable on mobile */}
+        <section className="mb-8">
+          <h2 className="text-2xl font-bold text-accent border-b-2 border-accent pb-1 mb-3">تازيون فيچر خبرون</h2>
+          <Suspense fallback={<div className="h-40 bg-gray-100 dark:bg-gray-800 rounded-xl animate-pulse" />}>
+            <CategorySection slug="top" limit={5} layout="horizontal" />
+          </Suspense>
+        </section>
+
+        {/* CITY SECTION — user picks their city */}
+        <section className="mb-10 bg-gradient-to-r from-brand/5 to-accent/5 rounded-2xl p-6">
+          <h2 className="text-2xl font-bold mb-4 text-brand-dark">پنهنجي شهر جي خبرون</h2>
+          <CitySelector />
+        </section>
+
+        {/* SINDH SECTION */}
+        <section className="mb-10">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-[2rem] font-bold text-brand-dark border-r-4 border-accent pr-3">سنڌ خبرون</h2>
+            <Link href="/?cat=sindh" className="text-sm text-accent font-bold hover:text-brand-dark">سڀ ڏسو →</Link>
           </div>
-        </div>
-      </section>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {sindhItems.slice(0, 6).map((n) => <NewsCard key={n.id} item={n} />)}
+          </div>
+        </section>
 
-      <section className="mt-10">
-        <h2 className="text-[2rem] font-bold mb-4 text-brand-dark border-r-4 border-accent pr-3">
-          {cat === 'top' ? 'تازيون خبرون' : `${categoryName(cat)} خبرون`}
-        </h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {grid.map((n) => <NewsCard key={n.id} item={n} />)}
-        </div>
-      </section>
+        {/* PAKISTAN SECTION */}
+        <section className="mb-10">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-[2rem] font-bold text-brand-dark border-r-4 border-accent pr-3">پاڪستان خبرون</h2>
+            <Link href="/?cat=pakistan" className="text-sm text-accent font-bold hover:text-brand-dark">سڀ ڏسو →</Link>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {pakistanItems.slice(0, 6).map((n) => <NewsCard key={n.id} item={n} />)}
+          </div>
+        </section>
 
-      {showSections ? (
-        <section className="mt-12">
-          <h2 className="text-[2rem] font-bold mb-5 text-brand-dark border-r-4 border-accent pr-3">زمروار خبرون</h2>
+        {/* OTHER CATEGORIES */}
+        <section className="mt-8">
+          <h2 className="text-[2rem] font-bold mb-5 text-brand-dark border-r-4 border-accent pr-3">ٻيا زمريا</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
-            {SECTION_SLUGS.map((s) => (
+            {SECTION_SLUGS.slice(2).map((s) => (
               <Suspense key={s} fallback={<SectionSkeleton />}>
-                {/* @ts-expect-error Async Server Component */}
                 <CategorySection slug={s} />
               </Suspense>
             ))}
           </div>
         </section>
-      ) : null}
+      </div>
+    );
+  }
 
-      <section className="py-12 mt-6">
-        <CitySelector />
-      </section>
+  // For non-top category pages (/?cat=sindh, etc.)
+  const news = await fetchFeedNews(cat, 40);
+
+  if (!news.length) {
+    return (
+      <p className="px-6 py-20 text-center text-gray-500 dark:text-gray-400">
+        هن وقت خبرون لوڊ نه ٿي سگهيون، مهرباني ڪري ٿوري دير کان پوءِ ڪوشش ڪريو.
+      </p>
+    );
+  }
+
+  return (
+    <div className="pb-4 px-4 pt-5">
+      <h1 className="text-[2rem] font-bold mb-5 text-brand-dark border-r-4 border-accent pr-3">
+        {categoryName(cat)} خبرون
+      </h1>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {news.map((n) => <NewsCard key={n.id} item={n} />)}
+      </div>
     </div>
   );
 }

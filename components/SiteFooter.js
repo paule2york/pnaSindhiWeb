@@ -2,6 +2,9 @@ import Link from 'next/link';
 
 const LINKS = [
   { label: 'پهريون صفحو', href: '/' },
+  { label: 'زمريا', href: '/categories' },
+  { label: 'وڊيوز', href: '/videos' },
+  { label: 'محفوظ خبرون', href: '/bookmarks' },
   { label: 'اسان بابت', href: '/about' },
   { label: 'اشتهار', href: '/advertise' },
   { label: 'رازداري پاليسي', href: '/privacy' },

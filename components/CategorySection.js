@@ -4,18 +4,37 @@ import { categoryName } from '../lib/data';
 import { articlePath } from '../lib/url';
 import Thumb from './Thumb';
 
-export default async function CategorySection({ slug }) {
-  const news = await fetchFeedNews(slug, 4);
+export default async function CategorySection({ slug, limit = 4, layout }) {
+  const news = await fetchFeedNews(slug, Math.max(limit, 4));
   if (!news.length) return null;
 
+  // Horizontal/scrolling layout variant
+  if (layout === 'horizontal') {
+    return (
+      <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+        {news.slice(0, limit).map((n) => (
+          <Link key={n.id} href={articlePath(n)} className="group block w-64 shrink-0">
+            <div className="aspect-[16/10] rounded-xl overflow-hidden bg-gray-100 mb-2">
+              <Thumb src={n.image} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
+            </div>
+            <h3 className="font-bold text-[1.2rem] leading-snug text-ink group-hover:text-brand line-clamp-2">{n.title}</h3>
+          </Link>
+        ))}
+      </div>
+    );
+  }
+
   const lead = news[0];
-  const rest = news.slice(1, 4);
+  const rest = news.slice(1, limit);
+  const catSlug = slug === 'top' ? '' : slug;
 
   return (
     <div>
       <div className="flex items-center justify-between border-b-2 border-accent mb-3 pb-1">
         <h2 className="text-[2rem] font-bold text-brand-dark">{categoryName(slug)}</h2>
-        <Link href={`/?cat=${slug}`} className="text-sm text-gray-500 hover:text-brand">وڊيڊ ←</Link>
+        {catSlug ? (
+          <Link href={`/?cat=${catSlug}`} className="text-sm text-gray-500 hover:text-brand">وڌيڪ ←</Link>
+        ) : null}
       </div>
 
       <Link href={articlePath(lead)} className="group block">

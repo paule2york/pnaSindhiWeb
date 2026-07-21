@@ -31,6 +31,7 @@ export default function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     const today = new Date();
@@ -135,7 +136,10 @@ export default function SiteHeader() {
             <button onClick={() => setSearchOpen((o) => !o)} aria-label="search" className="text-ink hover:text-brand transition shrink-0">
               <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.6-3.6" /></svg>
             </button>
-            <Link href="/cms/login" className="inline-flex items-center gap-1.5 bg-accent text-white text-sm md:text-base font-bold px-4 py-2 rounded-full hover:bg-brand-dark transition shrink-0">صحافي پورٽل</Link>
+            <Link href="/bookmarks" aria-label="bookmarks" className="text-ink hover:text-brand transition shrink-0">
+              <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
+            </Link>
+            <Link href="/cms/login" className="hidden md:inline-flex items-center gap-1.5 bg-accent text-white text-sm md:text-base font-bold px-4 py-2 rounded-full hover:bg-brand-dark transition shrink-0">صحافي پورٽل</Link>
             <button onClick={toggleTheme} aria-label="theme" className="text-2xl leading-none hover:opacity-70 shrink-0">{dark ? '☀️' : '🌙'}</button>
           </div>
         </div>

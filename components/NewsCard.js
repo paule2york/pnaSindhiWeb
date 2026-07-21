@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { articlePath } from '../lib/url';
 import Thumb from './Thumb';
+import BookmarkBtn from './BookmarkBtn';
 
 function fmt(d) {
   try {
@@ -21,8 +22,9 @@ export default function NewsCard({ item }) {
     : 'bg-brand-light text-brand-dark';
 
   const inner = (
-    <article className="card-hover bg-white rounded-2xl overflow-hidden border border-gray-100 h-full flex flex-col">
-      <div className="aspect-[16/9] overflow-hidden bg-gray-100">
+    <article className="card-hover bg-white rounded-2xl overflow-hidden border border-gray-100 h-full flex flex-col relative">
+      <div className="relative aspect-[16/9] overflow-hidden bg-gray-100">
+        <BookmarkBtn item={item} />
         <Thumb src={item.image} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
       </div>
       <div className="p-5 flex flex-col flex-1">
