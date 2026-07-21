@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { CATEGORIES } from '../lib/data';
-import { fetchFeedNews } from '../lib/rss';
-import NewsCard from '../components/NewsCard';
-import Thumb from '../components/Thumb';
-import { articlePath } from '../lib/url';
+import { CATEGORIES } from '../../lib/data';
+import { fetchFeedNews } from '../../lib/rss';
+import NewsCard from '../../components/NewsCard';
+import Thumb from '../../components/Thumb';
+import { articlePath } from '../../lib/url';
 
 export const revalidate = 300;
 
