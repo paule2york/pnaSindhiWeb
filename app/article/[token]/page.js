@@ -9,7 +9,9 @@ export const maxDuration = 60;
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://pna-sindhi-web.vercel.app';
 
-export async function generateMetadata({ params, searchParams }) {
+export async function generateMetadata({ params: paramsPromise, searchParams: searchParamsPromise }) {
+  const params = await paramsPromise;
+  const searchParams = await searchParamsPromise;
   const isNumericId = /^\d+$/.test(String(params.token || ''));
   let url = '';
   let stored = null;
@@ -40,7 +42,9 @@ export async function generateMetadata({ params, searchParams }) {
   }
 }
 
-export default function Page({ params, searchParams }) {
+export default async function Page({ params: paramsPromise, searchParams: searchParamsPromise }) {
+  const params = await paramsPromise;
+  const searchParams = await searchParamsPromise;
   const native = searchParams?.n === '1';
   return <ArticleView token={params.token} native={native} />;
 }

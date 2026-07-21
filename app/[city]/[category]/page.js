@@ -25,7 +25,8 @@ async function localNews(city, category) {
   }));
 }
 
-export default async function CityCategory({ params }) {
+export default async function CityCategory({ params: paramsPromise }) {
+  const params = await paramsPromise;
   const { city, category } = params;
   const [local, auto] = await Promise.all([
     localNews(city, category),
