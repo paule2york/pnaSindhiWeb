@@ -13,7 +13,6 @@ const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://pna-sindhi-web.vercel.
 export async function generateMetadata({ params: paramsPromise, searchParams: searchParamsPromise }) {
   const params = await paramsPromise;
   const searchParams = await searchParamsPromise;
-  // Prefer explicit ?u= base64-encoded URL over numeric id lookup
   let url = searchParams?.u ? decodeUrl(searchParams.u) : '';
   let stored = null;
   const native = searchParams?.n === '1';
@@ -26,16 +25,12 @@ export async function generateMetadata({ params: paramsPromise, searchParams: se
       if (!url) {
         const allNews = await fetchFeedNews('top', 60).catch(() => []);
         const found = allNews.find(n => n.link && shortId(n.link) === params.token);
-        if (found) {
-          url = found.link;
-          stored = found;
-        }
+        if (found) { url = found.link; stored = found; }
       }
     } else {
       try { url = decodeUrl(params.token); } catch (e) { url = ''; }
     }
   }
-
   if (!url) return { title: 'خبر | پي اين اي سنڌي' };
   try {
     const data = await extractArticle(url);
@@ -60,5 +55,41 @@ export default async function Page({ params: paramsPromise, searchParams: search
   const params = await paramsPromise;
   const searchParams = await searchParamsPromise;
   const native = searchParams?.n === '1';
-  return <ArticleView token={params.token} url={searchParams?.u || ''} native={native} />;
+  const b64Url = searchParams?.u || '';
+  let url = b64Url ? decodeUrl(b64Url) : '';
+  let stored = null;
+
+  // If we have a numeric token but no ?u=, try to resolve
+  if (!url && /^\d+$/.test(String(params.token || ''))) {
+    stored = await getArticleById(params.token).catch(() => null);
+    url = (stored && stored.link) || '';
+    if (!url) {
+      const allNews = await fetchFeedNews('top', 60).catch(() => []);
+      const found = allNews.find(n => n.link && shortId(n.link) === params.token);
+      if (found) { url = found.link; stored = found; }
+    }
+  } else if (!url) {
+    try { url = decodeUrl(params.token); } catch (e) { url = ''; }
+  }
+
+  // Try to find pre-translated RSS data for this article (fallback if extract fails)
+  let rssItem = null;
+  if (!stored && url) {
+    const allNews = await fetchFeedNews('top', 60).catch(() => []);
+    const found = allNews.find(n => n.link === url);
+    if (found) rssItem = found;
+  } else if (stored) {
+    rssItem = stored;
+  }
+
+  return (
+    <ArticleView
+      token={params.token}
+      url={url}
+      native={native}
+      rssTitle={rssItem?.title || ''}
+      rssDesc={rssItem?.description || ''}
+      rssImage={rssItem?.image || ''}
+    />
+  );
 }

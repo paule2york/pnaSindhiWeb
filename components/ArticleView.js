@@ -63,7 +63,7 @@ function SidebarItem({ n }) {
   );
 }
 
-export default async function ArticleView({ token, url: passUrl, native }) {
+export default async function ArticleView({ token, url: passUrl, native, rssTitle = '', rssDesc = '', rssImage = '' }) {
   // page.js resolves the URL and passes it directly.
   // Fallback: if no passUrl, try decoding the token directly.
   let url = passUrl || '';
@@ -77,12 +77,39 @@ export default async function ArticleView({ token, url: passUrl, native }) {
   const isNative = native || (stored && stored.native) || false;
 
   if (!url) {
+    // RSS fallback: show the card-level data if URL is not available
+    if (rssTitle) {
+      return (
+        <div className="max-w-3xl mx-auto px-6 py-16 text-center">
+          <h1 className="text-[2.5rem] font-bold text-ink mb-4">{rssTitle}</h1>
+          {rssDesc ? <p className="text-2xl text-gray-600 mb-6">{rssDesc}</p> : null}
+          <div><Link href="/" className="text-sm text-brand font-bold">→ واپس مُڈڪ صفحي تي</Link></div>
+        </div>
+      );
+    }
     return <div className="px-6 py-20 text-center text-gray-500">خبر نه ملي.</div>;
   }
 
   const data = await extractArticle(url);
 
   if (!data || !data.paragraphs || data.paragraphs.length === 0) {
+    // RSS fallback when article extract fails (e.g. timeout on Vercel)
+    if (rssTitle) {
+      return (
+        <div className="max-w-3xl mx-auto px-6 py-16 text-center">
+          <h1 className="text-[3rem] font-bold text-ink mb-4 leading-relaxed">{rssTitle}</h1>
+          {rssImage && (
+            <figure className="mb-7">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={rssImage} alt="" className="w-full rounded-2xl" />
+            </figure>
+          )}
+          {rssDesc ? <p className="text-[2rem] text-gray-600 leading-relaxed mb-6">{rssDesc}</p> : null}
+          <ShareRow url={`${SITE}/article/${token}`} title={rssTitle} />
+          <div className="mt-2"><Link href="/" className="text-sm text-brand font-bold">→ واپس مُڈڪ صفحي تي</Link></div>
+        </div>
+      );
+    }
     return (
       <div className="max-w-3xl mx-auto px-6 py-16 text-center">
         <p className="text-gray-600 mb-4">هيءَ خبر هتي ڈائي نه ٹي سگهي.</p>
