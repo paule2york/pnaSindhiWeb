@@ -19,8 +19,9 @@ export default async function Home({ searchParams }) {
 
   // For top page: load sindh + pakistan featured sections, plus lead hero
   if (cat === 'top') {
-    const [leadNews, sindhNews, pakistanNews] = await Promise.all([
+    const [leadNews, topNews, sindhNews, pakistanNews] = await Promise.all([
       fetchFeedNews('top', 1),
+      fetchFeedNews('top', 10),
       fetchFeedNews('sindh', 10),
       fetchFeedNews('pakistan', 10),
     ]);
@@ -35,6 +36,8 @@ export default async function Home({ searchParams }) {
 
     const lead = leadNews?.[0];
     if (lead && lead.id) seenIds.add(lead.id);
+    // Latest news: exclude hero, show remaining top items
+    const latestItems = dedup(topNews);
     const sindhItems = dedup(sindhNews);
     const pakistanItems = dedup(pakistanNews);
 
@@ -55,9 +58,24 @@ export default async function Home({ searchParams }) {
           </section>
         ) : null}
 
+        {/* LATEST NEWS SECTION */}
+        <section className="mb-8">
+          <h2 className="text-[2rem] font-bold text-accent border-b-2 border-accent pb-1 mb-3">تازيون خبرون</h2>
+          <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+            {latestItems.slice(0, 8).map((n) => (
+              <Link key={n.id} href={articlePath(n)} className="group block w-64 shrink-0">
+                <div className="aspect-[16/10] rounded-xl overflow-hidden bg-gray-100 mb-2">
+                  <Thumb src={n.image} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
+                </div>
+                <h3 className="font-bold text-[1.2rem] leading-snug text-ink group-hover:text-brand line-clamp-2">{n.title}</h3>
+              </Link>
+            ))}
+          </div>
+        </section>
+
         {/* Featured sidebar: right side on desktop, scrollable on mobile */}
         <section className="mb-8">
-          <h2 className="text-2xl font-bold text-accent border-b-2 border-accent pb-1 mb-3">تازيون فيچر خبرون</h2>
+          <h2 className="text-2xl font-bold text-accent border-b-2 border-accent pb-1 mb-3">فيچر خبرون</h2>
           <Suspense fallback={<div className="h-40 bg-gray-100 dark:bg-gray-800 rounded-xl animate-pulse" />}>
             <CategorySection slug="top" limit={5} layout="horizontal" excludeIds={seenIds} />
           </Suspense>

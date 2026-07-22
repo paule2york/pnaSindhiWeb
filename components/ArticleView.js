@@ -92,56 +92,32 @@ export default async function ArticleView({ token, url: passUrl, native, rssTitl
 
   const data = await extractArticle(url);
 
-  if (!data || !data.paragraphs || data.paragraphs.length === 0) {
-    // RSS fallback when article extract fails (e.g. timeout on Vercel)
-    if (rssTitle) {
-      return (
-        <div className="max-w-3xl mx-auto px-6 py-16 text-center">
-          <h1 className="text-[3rem] font-bold text-ink mb-4 leading-relaxed">{rssTitle}</h1>
-          {rssImage && (
-            <figure className="mb-7">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={rssImage} alt="" className="w-full rounded-2xl" />
-            </figure>
-          )}
-          {rssDesc ? <p className="text-[2rem] text-gray-600 leading-relaxed mb-6">{rssDesc}</p> : null}
-          <ShareRow url={`${SITE}/article/${token}`} title={rssTitle} />
-          <div className="mt-2"><Link href="/" className="text-sm text-brand font-bold">→ واپس مُڈڪ صفحي تي</Link></div>
-        </div>
-      );
-    }
+  if (data && data.paragraphs && data.paragraphs.length > 0) {
+    // Normal path: extract succeeded
+    const [titleSd, paras, feedRaw] = await Promise.all([
+      isNative ? toSindhiRewrite(data.title) : toSindhi(data.title),
+      isNative ? Promise.all(data.paragraphs.slice(0, 20).map((p) => toSindhiRewrite(p))) : toSindhiMany(data.paragraphs.slice(0, 20)),
+      fetchFeedNews('top', 14),
+    ]);
+    const feed = (feedRaw || []).filter((n) => n.link && n.link !== url);
+    const popular = feed.slice(0, 6);
+    const related = feed.slice(6, 12);
+    const relTime = timeAgoSindhi(data.publishedDate);
+    const pageUrl = `${SITE}/article/${token}${isNative ? '?n=1' : ''}`;
+
     return (
-      <div className="max-w-3xl mx-auto px-6 py-16 text-center">
-        <p className="text-gray-600 mb-4">هيءَ خبر هتي ڈائي نه ٹي سگهي.</p>
-        <div className="mt-2"><Link href="/" className="text-sm text-brand font-bold">→ واپس مُڈڪ صفحي تي</Link></div>
-      </div>
-    );
-  }
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="grid lg:grid-cols-4 gap-8">
+          <article className="lg:col-span-3">
+            <div className="mb-5">
+              <Link href="/" className="text-sm text-brand font-bold">→ واپس</Link>
+            </div>
 
-  const [titleSd, paras, feedRaw] = await Promise.all([
-    isNative ? toSindhiRewrite(data.title) : toSindhi(data.title),
-    isNative ? Promise.all(data.paragraphs.slice(0, 20).map((p) => toSindhiRewrite(p))) : toSindhiMany(data.paragraphs.slice(0, 20)),
-    fetchFeedNews('top', 14),
-  ]);
-  const feed = (feedRaw || []).filter((n) => n.link && n.link !== url);
-  const popular = feed.slice(0, 6);
-  const related = feed.slice(6, 12);
-  const relTime = timeAgoSindhi(data.publishedDate);
-  const pageUrl = `${SITE}/article/${token}${isNative ? '?n=1' : ''}`;
+            <h1 className="text-[2.5rem] font-medium leading-relaxed text-ink text-right">{titleSd}</h1>
 
-  return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <div className="grid lg:grid-cols-4 gap-8">
-        <article className="lg:col-span-3">
-          <div className="mb-5">
-            <Link href="/" className="text-sm text-brand font-bold">→ واپس</Link>
-          </div>
-
-          <h1 className="text-[2.5rem] font-medium leading-relaxed text-ink text-right">{titleSd}</h1>
-
-          <div className="flex items-center justify-between border-y border-gray-200 py-3 mt-5 mb-7">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-brand-light text-brand-dark flex items-center justify-center font-bold text-2xl">پ</div>
+            <div className="flex items-center justify-between border-y border-gray-200 py-3 mt-5 mb-7">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-brand-light text-brand-dark flex items-center justify-center font-bold text-2xl">پ</div>
               <div className="leading-tight">
                 <div className="text-xl font-bold text-ink">ويب ڈيسڪ</div>
                 {relTime ? <div className="text-base text-gray-500">{relTime}</div> : null}
@@ -159,6 +135,78 @@ export default async function ArticleView({ token, url: passUrl, native, rssTitl
 
           <div className="space-y-4 text-[2rem] leading-relaxed text-gray-800">
             {paras.map((p, i) => <p key={i}>{p}</p>)}
+          </div>
+
+          {related.length ? (
+            <section className="mt-12">
+              <h2 className="text-[2rem] font-bold mb-5 text-brand-dark border-r-4 border-accent pr-3">متعلقه خبرون</h2>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {related.map((n) => <NewsCard key={n.id} item={n} />)}
+              </div>
+            </section>
+          ) : null}
+        </article>
+
+        <aside className="lg:col-span-1">
+          <h2 className="text-2xl font-bold text-accent border-b-2 border-accent pb-1 mb-3">مقبول ترين</h2>
+          <div className="divide-y divide-gray-200">
+            {popular.map((n) => <SidebarItem key={n.id} n={n} />)}
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+  }
+
+  // RSS fallback when extract fails — show full layout with sidebar
+  const [feedRaw] = await Promise.all([fetchFeedNews('top', 14)]);
+  const feed = (feedRaw || []).filter((n) => n.link && n.link !== url);
+  const popular = feed.slice(0, 6);
+  const related = feed.slice(6, 12);
+  const pageUrl = `${SITE}/article/${token}${isNative ? '?n=1' : ''}`;
+  const displayTitle = rssTitle || (stored && stored.title) || '';
+  const displayDesc = rssDesc || (stored && stored.description) || '';
+  const displayImage = rssImage || (stored && stored.image) || '';
+
+  if (!displayTitle) {
+    return (
+      <div className="max-w-3xl mx-auto px-6 py-16 text-center">
+        <p className="text-gray-600 mb-4">هيءَ خبر هتي ڈائي نه ٹي سگهي.</p>
+        <div className="mt-2"><Link href="/" className="text-sm text-brand font-bold">→ واپس مُڈڪ صفحي تي</Link></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="grid lg:grid-cols-4 gap-8">
+        <article className="lg:col-span-3">
+          <div className="mb-5">
+            <Link href="/" className="text-sm text-brand font-bold">→ واپس</Link>
+          </div>
+
+          <h1 className="text-[2.5rem] font-medium leading-relaxed text-ink text-right">{displayTitle}</h1>
+
+          <div className="flex items-center justify-between border-y border-gray-200 py-3 mt-5 mb-7">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-brand-light text-brand-dark flex items-center justify-center font-bold text-2xl">پ</div>
+              <div className="leading-tight">
+                <div className="text-xl font-bold text-ink">ويب ڈيسڪ</div>
+                <div className="text-base text-gray-500">هاڻي</div>
+              </div>
+            </div>
+            <ShareRow url={pageUrl} title={displayTitle} />
+          </div>
+
+          {displayImage ? (
+            <figure className="mb-7">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={displayImage} alt="" className="w-full rounded-2xl" />
+            </figure>
+          ) : null}
+
+          <div className="space-y-4 text-[2rem] leading-relaxed text-gray-800">
+            <p>{displayDesc}</p>
           </div>
 
           {related.length ? (
