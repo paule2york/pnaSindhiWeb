@@ -4,15 +4,19 @@ import { categoryName } from '../lib/data';
 import { articlePath } from '../lib/url';
 import Thumb from './Thumb';
 
-export default async function CategorySection({ slug, limit = 4, layout }) {
+export default async function CategorySection({ slug, limit = 4, layout, excludeIds }) {
   const news = await fetchFeedNews(slug, Math.max(limit, 4));
   if (!news.length) return null;
+  // Filter out IDs already shown in other sections
+  const filtered = excludeIds ? news.filter((n) => !excludeIds.has(n.id)) : news;
 
   // Horizontal/scrolling layout variant
   if (layout === 'horizontal') {
+    const display = filtered.slice(0, limit);
+    if (!display.length) return null;
     return (
       <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
-        {news.slice(0, limit).map((n) => (
+        {display.map((n) => (
           <Link key={n.id} href={articlePath(n)} className="group block w-64 shrink-0">
             <div className="aspect-[16/10] rounded-xl overflow-hidden bg-gray-100 mb-2">
               <Thumb src={n.image} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
@@ -24,8 +28,8 @@ export default async function CategorySection({ slug, limit = 4, layout }) {
     );
   }
 
-  const lead = news[0];
-  const rest = news.slice(1, limit);
+  const lead = filtered[0];
+  const rest = filtered.slice(1, limit);
   const catSlug = slug === 'top' ? '' : slug;
 
   return (

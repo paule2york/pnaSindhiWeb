@@ -25,9 +25,18 @@ export default async function Home({ searchParams }) {
       fetchFeedNews('pakistan', 10),
     ]);
 
+    // Deduplicate across sections so the same article never appears twice
+    const seenIds = new Set();
+    const dedup = (items) => (items || []).filter((n) => {
+      if (!n || seenIds.has(n.id)) return false;
+      seenIds.add(n.id);
+      return true;
+    });
+
     const lead = leadNews?.[0];
-    const sindhItems = sindhNews || [];
-    const pakistanItems = pakistanNews || [];
+    if (lead && lead.id) seenIds.add(lead.id);
+    const sindhItems = dedup(sindhNews);
+    const pakistanItems = dedup(pakistanNews);
 
     return (
       <div className="pb-4 px-4 pt-5">
@@ -50,7 +59,7 @@ export default async function Home({ searchParams }) {
         <section className="mb-8">
           <h2 className="text-2xl font-bold text-accent border-b-2 border-accent pb-1 mb-3">تازيون فيچر خبرون</h2>
           <Suspense fallback={<div className="h-40 bg-gray-100 dark:bg-gray-800 rounded-xl animate-pulse" />}>
-            <CategorySection slug="top" limit={5} layout="horizontal" />
+            <CategorySection slug="top" limit={5} layout="horizontal" excludeIds={seenIds} />
           </Suspense>
         </section>
 
