@@ -49,7 +49,7 @@ CREATE INDEX IF NOT EXISTS idx_cms_posts_published ON cms_posts(published);
 INSERT INTO cms_users (email, password_hash, name, role)
 VALUES (
   'admin@pna.com',
-  '$2b$10$XWguvF1Z.vf38.IDRKA.5upWexgyoSe7I9Ckkm/UcdpNHbOcCkU8u',
+  '$2b$10$1bdRk861vSbxoIWszzFDI.FJmBLkufGH993xZ4eGIzkN08FU1YdZK',
   'Admin',
   'admin'
 ) ON CONFLICT (email) DO NOTHING;
