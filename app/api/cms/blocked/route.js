@@ -26,19 +26,22 @@ export async function POST(req) {
   if (error) return error;
 
   const body = await req.json();
-  const { link, title } = body;
+  const { link, title, short_id: directShortId } = body;
 
-  if (!link) {
-    return NextResponse.json({ error: 'link required' }, { status: 400 });
+  if (!link && !directShortId) {
+    return NextResponse.json({ error: 'link or short_id required' }, { status: 400 });
   }
 
   const admin = supabaseAdmin();
 
-  // Check if already blocked
+  const finalShortId = directShortId || shortId(link);
+  const finalLink = link || 'blocked:short_id:' + directShortId;
+
+  // Check if already blocked by short_id
   const { data: existing } = await admin
     .from('cms_blocked')
     .select('id')
-    .eq('link', link)
+    .eq('short_id', finalShortId)
     .maybeSingle();
 
   if (existing) {
@@ -48,8 +51,8 @@ export async function POST(req) {
   const { error: insertErr } = await admin
     .from('cms_blocked')
     .insert({
-      link,
-      short_id: shortId(link),
+      link: finalLink,
+      short_id: finalShortId,
       title: title || '',
       blocked_by: user.id,
     });

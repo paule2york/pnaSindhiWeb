@@ -5,6 +5,7 @@ import { extractArticle } from '../lib/extract';
 import { toSindhi, toSindhiMany, toSindhiRewrite } from '../lib/translate';
 import { fetchFeedNews } from '../lib/rss';
 import NewsCard from './NewsCard';
+import BlockArticleBtn from './BlockArticleBtn';
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://pna-sindhi-web.vercel.app';
 
@@ -181,8 +182,9 @@ export default async function ArticleView({ token, url: passUrl, native, rssTitl
     <div className="max-w-6xl mx-auto px-4 py-8">
       <div className="grid lg:grid-cols-4 gap-8">
         <article className="lg:col-span-3">
-          <div className="mb-5">
+          <div className="mb-5 flex items-center justify-between">
             <Link href="/" className="text-sm text-brand font-bold">→ واپس</Link>
+            <BlockArticleBtn token={token} sourceUrl={url} />
           </div>
 
           <h1 className="text-[2.5rem] font-medium leading-relaxed text-ink text-right">{displayTitle}</h1>
