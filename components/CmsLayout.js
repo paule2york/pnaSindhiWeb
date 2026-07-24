@@ -37,6 +37,8 @@ export default function CmsLayout({ children }) {
     { href: '/cms/posts/new', label: 'نئی خبر', mobileLabel: '+' },
   ];
 
+  navItems.push({ href: '/cms/blocked', label: 'بلاڪ', mobileLabel: '🚫' });
+
   if (user.role === 'admin') {
     navItems.push({ href: '/cms/users', label: 'صحافي' });
   }
